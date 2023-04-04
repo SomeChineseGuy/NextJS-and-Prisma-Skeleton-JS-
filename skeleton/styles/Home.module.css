@@ -1,0 +1,14 @@
+.description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  text-align: center;
+}
+
+.subtitle {
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
