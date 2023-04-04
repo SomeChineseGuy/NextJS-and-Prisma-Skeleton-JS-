@@ -1,5 +1,12 @@
 # NextJS-and-Prisma-Skeleton-JS
 
+## Getting started
+
+```
+cd skeleton
+npm i
+```
+
 ## Getting started with prisma
 
 In your skeleton file, create a `.env` file. In side of that file add
