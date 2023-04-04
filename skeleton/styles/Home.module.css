@@ -12,3 +12,11 @@
   padding-top: 10px;
   padding-bottom: 30px;
 }
+
+.dbContainer {
+  margin: 30px;
+}
+
+.dbContainer h3 {
+  margin: 30px;
+}
