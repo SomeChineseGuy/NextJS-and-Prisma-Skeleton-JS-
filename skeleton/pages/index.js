@@ -16,7 +16,7 @@ export default function Home({blogs}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-      <h1>Welcome, to your LHL Skeleton!</h1>
+      <h1 className={styles.title}>Welcome, to your LHL Skeleton!</h1>
       <p className={styles.subtitle}>Please read the the skeleton set up for this should be in the read me one directory above your current.</p>
         <div className={styles.description}> 
           <Image
