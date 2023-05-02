@@ -13,25 +13,63 @@ datasource db {
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
-  name  String?
-  posts Post[]
-  Blog  Blog[]
+  first_name  String
+  last_name  String
+  password String
+  sources  Source[]
+  accounts Account[]
+  budgets Budget[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Source {
+  id Int @id @default(autoincrement())
+  name String
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  transactions Transaction[]
 }
 
-model Blog {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Account {
+  id Int @id @default(autoincrement())
+  name String
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  transactions Transaction[]
+}
+
+model Budget {
+  id Int @id @default(autoincrement())
+  date DateTime
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  categories CategoriesOnBudget[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  transaction Transaction[]
+  budgets CategoriesOnBudget[]
+}
+
+model CategoriesOnBudget {
+  budget Budget @relation(fields: [budget_id], references: [id])
+  budget_id Int
+  category Category @relation(fields: [category_id], references: [id])
+  category_id Int
+
+  @@id([budget_id, category_id])
+}
+
+model Transaction {
+  id Int @id @default(autoincrement())
+  date DateTime
+  amount_decimal Int
+  title String
+  sources Source @relation(fields: [source_id], references: [id])
+  source_id Int
+  accounts Account @relation(fields: [account_id], references: [id])
+  account_id Int
+  categories Category @relation(fields: [category_id], references: [id])
+  category_id Int
 }
