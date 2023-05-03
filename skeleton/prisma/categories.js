@@ -1,0 +1,18 @@
+export const categories = [
+  { name: "Clothing" },
+  { name: "Dining Out" },
+  { name: "Education" },
+  { name: "Electronics" },
+  { name: "Fast-Food" },
+  { name: "Gifts" },
+  { name: "Groceries" },
+  { name: "Household" },
+  { name: "Internet & Phone" },
+  { name: "Loans" },
+  { name: "Medical" },
+  { name: "Personal" },
+  { name: "Pet" },
+  { name: "Rent" },
+  { name: "Subscriptions" },
+  { name: "Transportation" },
+];
