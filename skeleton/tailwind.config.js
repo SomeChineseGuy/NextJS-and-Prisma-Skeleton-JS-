@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    colors: {
+      "nav-gray": "#D9D9D9",
+    },
   },
   plugins: [],
 };
