@@ -12,5 +12,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-  variants: ["responsive"],
 };

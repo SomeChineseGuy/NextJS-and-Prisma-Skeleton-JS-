@@ -1,10 +1,10 @@
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
-export default function Layout() {
+export default function Layout(props) {
   return (
     <>
-      <Navbar />
+      <Navbar user={props.user}/>
     </>
   );
 }
