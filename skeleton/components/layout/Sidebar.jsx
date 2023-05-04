@@ -1,8 +1,29 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import styles from "@/styles/Home.module.css";
 
-const Sidebar = () => {
-  return <></>;
+export default function Sidebar() {
+
+const links = [
+  {label: 'Overview', path: "/"},
+  {label: 'Accounts', path: "/"},
+  {label: 'Budgets', path: "/"},
+  {label: 'Reports', path: "/"},
+]
+
+  return (
+    <div className="flex-col w-1/6 items-center justify-center">
+      {links.map( (link, i) => {
+        return (<li className="list-none bg-sky-500 hover:bg-sky-700 ...">
+          <Link
+            key={i}
+            href={`${link.path}`}
+            >{link.label}
+          </Link>
+        </li>
+        )})}
+    </div>
+  );
 };
 
-export default Sidebar;
+

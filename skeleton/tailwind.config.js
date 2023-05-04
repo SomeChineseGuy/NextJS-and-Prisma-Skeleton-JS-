@@ -12,6 +12,7 @@ module.exports = {
     extend: {},
     colors: {
       "nav-gray": "#D9D9D9",
+      "side-white": "#FDFDFF",
     },
   },
   plugins: [],
