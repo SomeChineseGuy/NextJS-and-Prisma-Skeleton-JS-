@@ -17,4 +17,4 @@ DATABASE_URL="file:./dev.db"
 
 This is needed in order for prisma to work on your local.
 
-Should you decide to use an upload database (So this will be a DB hosted only and shared between members) Please read the prisma docs and add accordingly
+Should you decide to use an upload database (So this will be a DB hosted only and shared between members) Please read the prisma docs and add accordingly.
