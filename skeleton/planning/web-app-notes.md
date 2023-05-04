@@ -18,6 +18,10 @@
 - d3.js
 - Axios
 
+## API vs Server Side Props vs Static Props
+- Use API for any database requests
+- Use Server Side Props for any GET requests
+
 ## Intention revealing names
 - Pronounceable names
 - Searchable names
