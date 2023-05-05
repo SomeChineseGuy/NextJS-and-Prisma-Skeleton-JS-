@@ -9,6 +9,7 @@ import Layout from "@/components/layout/Layout";
 const inter = Inter({ subsets: ["latin"] });
 
 export async function getServerSideProps() {
+  // !!! ask Alvin about this !!!
   const user = await prisma.user.findUnique({
     where: {
       id: 1,

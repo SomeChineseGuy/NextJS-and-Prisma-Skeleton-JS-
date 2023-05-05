@@ -9,12 +9,13 @@ const links = [
   {label: 'Accounts', path: "/"},
   {label: 'Budgets', path: "/"},
   {label: 'Reports', path: "/"},
-]
+];
 
   return (
     <div className="flex-col w-1/6 items-center justify-center">
       {links.map( (link, i) => {
-        return (<li className="list-none bg-sky-500 hover:bg-sky-700 ...">
+        return (
+        <li className="list-none bg-gray-900">
           <Link
             key={i}
             href={`${link.path}`}
