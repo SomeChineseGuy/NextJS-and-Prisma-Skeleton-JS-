@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
-export default function Form({onSubmit, type, text, categories, sources}) {
+export default function Form({onSubmit, type, text, categories, accounts}) {
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [account, setAccount] = useState('')
-  const [source, setSource] = useState('')
+  const [sources, setSources] = useState('')
   const [category, setCategory] = useState('Clothing')
+
+  console.log(title, amount, account, sources, category);
 
   console.log(category); //for testing
   
@@ -52,10 +54,16 @@ export default function Form({onSubmit, type, text, categories, sources}) {
           
           <label>
             Payment Account:
-            <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type='text' value={account} onChange={e => setAccount(e.target.value)}
-            />
+            <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <select 
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id='account' value={account} onChange={e => setAccount(e.target.value)}
+              >
+              {accounts && accounts.map(account => {
+                return <option value={account.name} key={account.id}>{account.name}</option>
+              })}
+              </select>
+            </div>
           </label>
           <br/>
           <br/>
@@ -78,4 +86,3 @@ export default function Form({onSubmit, type, text, categories, sources}) {
     </div>
   );
 }
-
