@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 
-export default function Form({onSubmit, type, text, categories, accounts}) {
+export default function Form({onSubmit, type, text, categories, accounts, titleRef, cateRef, amountRef, accountRef, sourRef}) {
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [account, setAccount] = useState('')
   const [sources, setSources] = useState('')
   const [category, setCategory] = useState('Clothing')
-
-  console.log(title, amount, account, sources, category);
-
-  console.log(category); //for testing
   
   return (
     <div className="flex items-center h-screen">
@@ -21,6 +17,7 @@ export default function Form({onSubmit, type, text, categories, accounts}) {
             <input 
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text" value={title} onChange={(e) => setTitle(e.target.value)}
+            ref={titleRef}
             />
           </label>
           <br />
@@ -32,6 +29,7 @@ export default function Form({onSubmit, type, text, categories, accounts}) {
               <select 
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id='category' value={category} onChange={e => setCategory(e.target.value)}
+              ref={cateRef}
               >
               {categories && categories.map(category => {
                 return <option value={category.name} key={category.id}>{category.name}</option>
@@ -47,6 +45,7 @@ export default function Form({onSubmit, type, text, categories, accounts}) {
             <input 
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text" value={amount} onChange={(e) => setAmount(e.target.value)} 
+            ref={amountRef}
             />
           </label>
           <br />
@@ -58,6 +57,7 @@ export default function Form({onSubmit, type, text, categories, accounts}) {
               <select 
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id='account' value={account} onChange={e => setAccount(e.target.value)}
+              ref={accountRef}
               >
               {accounts && accounts.map(account => {
                 return <option value={account.name} key={account.id}>{account.name}</option>
@@ -73,6 +73,7 @@ export default function Form({onSubmit, type, text, categories, accounts}) {
             <input 
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type='text' value={sources} onChange={e => setSources(e.target.value)}
+            ref={sourRef}
             />
           </label>
           <br/>
