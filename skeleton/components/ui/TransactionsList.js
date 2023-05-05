@@ -86,10 +86,9 @@ export default function TransactionList({ transactions }) {
         <h1>Transactions</h1>
         {groupedTransactions(transactions).map(({ date, transactions }) => {
           return (
-            <div className="mt-5 flex flex-col">
-              <span className="text-sm">{formatDate(date)}</span>
+            <div className="mt-5 flex flex-col" key={date + transactions[0].id}>
+              <span className="text-sm">{date}</span>
               {transactions.map((transaction) => {
-                console.log(transaction);
                 return (
                   <div key={transaction.id} className="flex mt-5">
                     <div className="flex items-center w-16">
