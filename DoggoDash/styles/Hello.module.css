@@ -1,0 +1,22 @@
+.title {
+  font-size: 30px;
+  color: blue;
+}
+
+.counter { 
+  font-size: 20px;
+  color: pink;
+}
+
+.btnContainer {
+  background-color: tomato;
+  padding: 20px 10px;
+}
+
+.btn {
+  background-color: aqua;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin-left: 20px;
+}
