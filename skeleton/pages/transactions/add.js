@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import Form from "../components/form";
 import { PrismaClient } from '@prisma/client'
 import axios from 'axios';
@@ -20,7 +20,10 @@ export default function AddTransaction({categories, accounts}) {
       sources: sourRef.current.value
     }
     console.log('submit is clicked!', inputValue);
-    // axios.get('/api/transaction', inputValue)
+    axios.post('/api/transaction', inputValue)
+    .then(res => {
+      console.log('res', res);
+    });
   }
   
   return(
