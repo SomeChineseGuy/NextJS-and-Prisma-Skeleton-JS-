@@ -1,3 +1,4 @@
+//use this for add-category feature
 import React, { useState } from 'react';
 
 export default function CategoryAdd() {

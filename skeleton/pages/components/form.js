@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Category from './category'
 
-export default function Form({onSubmit, type, text}) {
+export default function Form({onSubmit, type, text, categories, sources}) {
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [account, setAccount] = useState('')
-  const [sources, setSources] = useState('')
+  const [source, setSource] = useState('')
+  const [category, setCategory] = useState('Clothing')
 
-  console.log(title); //for testing
+  console.log(category); //for testing
   
   return (
     <div className="flex items-center h-screen">
@@ -26,7 +26,16 @@ export default function Form({onSubmit, type, text}) {
           
           <label>
             Category:
-            <Category />
+            <div className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <select 
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id='category' value={category} onChange={e => setCategory(e.target.value)}
+              >
+              {categories && categories.map(category => {
+                return <option value={category.name} key={category.id}>{category.name}</option>
+              })}
+              </select>
+            </div>
           </label>
           <br />
           <br/>
@@ -69,3 +78,4 @@ export default function Form({onSubmit, type, text}) {
     </div>
   );
 }
+
