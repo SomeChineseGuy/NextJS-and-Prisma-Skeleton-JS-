@@ -2,8 +2,6 @@
 
 ## Main Stories
 
-As a user, I can see my dashboard with my information, because I want to track my expenses to my budget
-
 As a logged-in user, I can see my dashboard with my information, because I want to track my expenses to my budget
 
 As a logged-in user, I can add, edit and delete my transactions and transaction type (chequing, savings, etc.), because I want to have control over my transaction data
@@ -12,7 +10,7 @@ As a logged-in user, I can add, edit and delete multiple accounts (chequing, sav
 
 As a logged-in user, I can filter out my transactions by date, because I want to check my transactions at a certain time
 
-As a logged-in user, I can extract reports, because I want to see my data in different formats (charts, tables, etc.)
+As a logged-in user, I can reports, because I want to see my data in different formats (charts, tables, etc.)
 
 As a logged-in user, I can set my monthly budget, because I want to plan my budget
 
