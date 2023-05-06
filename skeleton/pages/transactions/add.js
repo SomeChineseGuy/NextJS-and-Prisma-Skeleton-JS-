@@ -14,16 +14,16 @@ export default function AddTransaction({categories, accounts}) {
     event.preventDefault();
     const inputValue = {
       title: titleRef.current.value,
-      categories: cateRef.current.value,
+      categoryId: Number(cateRef.current.value),
       amountDecimal: amountRef.current.value*100,
-      accounts: accountRef.current.value,
-      sources: sourRef.current.value
+      accountId: Number(accountRef.current.value),
+      sourceId: sourRef.current.value,
+      date: new Date().toISOString()
     }
-    console.log('submit is clicked!', inputValue);
+    console.log('submit is clicked!');
     axios.post('/api/transaction', inputValue)
-    .then(res => {
-      console.log('res', res);
-    });
+    .then(res => console.log('res', res))
+    .catch(error => console.log(error.response.status));
   }
   
   return(
@@ -37,7 +37,7 @@ export default function AddTransaction({categories, accounts}) {
 
 export async function getServerSideProps() {
   const prisma = new PrismaClient();
-  const categories = await prisma.category.findMany();
+  const categories = await prisma.category.findMany(); //names of the tables are in the seed.js file 
   const accounts = await prisma.account.findMany();
 
   return {
