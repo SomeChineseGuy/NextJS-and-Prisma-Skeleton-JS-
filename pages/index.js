@@ -28,7 +28,7 @@ export default function Home({blogs}) {
             priority
           />
         </div>
-        <div className={styles.dbContainer}>
+        {/* <div className={styles.dbContainer}>
           <h3>Values pulled from your DB, these values can be updated or change by typing &rdquo;npx prisma studio&rdquo; in your terminal</h3>
           {blogs && blogs.map(blog => (
             <div key={blog.id}>
@@ -36,17 +36,17 @@ export default function Home({blogs}) {
               <p>{blog.content}</p>
             </div>
           ))}
-        </div> 
+        </div>  */}
       </main>
     </>
   )
 }
 
-export async function getStaticProps() {
-  const prisma = new PrismaClient()
-  const blogs = await prisma.blog.findMany()
+// export async function getStaticProps() {
+//   const prisma = new PrismaClient()
+//   const blogs = await prisma.blog.findMany()
 
-  return {
-    props : { blogs }
-  }
-}
+//   return {
+//     props : { blogs }
+//   }
+// }
