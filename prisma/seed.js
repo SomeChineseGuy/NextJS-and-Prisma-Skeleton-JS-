@@ -131,6 +131,7 @@ async function main() {
       description: "Rome is one of those destinations that sits on many travelers' must-see someday lists. The culture of Rome and its historic architecture are its main draws. The Colosseum, Pantheon, Trevi fountain, and the Vatican usually top the list of things vacationers want to check off their list.",
     },
   })
+  console.log(rome)
 }
 main()
   .then(async () => {
