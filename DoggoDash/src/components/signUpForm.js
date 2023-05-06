@@ -2,7 +2,11 @@ import { useState } from 'react';
 export default function Form() {
 
 // States for registration
-const [name, setName] = useState('');
+const [firstName, setFirstName] = useState('');
+const [lastName, setLastName] = useState('');
+const [city, setCity] = useState(''); 
+const [province, setProvince] = useState('');
+const [streetAddress, setStreetAddress] = useState('');
 const [postalCode, setpostalCode] = useState('');
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
@@ -11,11 +15,35 @@ const [password, setPassword] = useState('');
 const [submitted, setSubmitted] = useState(false);
 const [error, setError] = useState(false);
 
-// Handling the name change
-const handleName = (e) => {
-setName(e.target.value);
+// Handling the first name change
+const handleFirstName = (e) => {
+setFirstName(e.target.value);
 setSubmitted(false);
-};
+}; 
+
+// Handling the last name change
+const handleLastName = (e) => {
+  setLastName(e.target.value);
+  setSubmitted(false);
+  }; 
+
+// Handling the street adress change
+const handleStreetAdress = (e) => {
+  setStreetAddress(e.target.value);
+  setSubmitted(false);
+  }; 
+
+// Handling the street adress change
+const handleCity = (e) => {
+  setCity(e.target.value);
+  setSubmitted(false);
+  }; 
+
+  // Handling the street adress change
+const handleProvince = (e) => {
+  setProvince(e.target.value);
+  setSubmitted(false);
+  };
 
 const handlePostalCode = (e) => {
   setpostalCode(e.target.value);
@@ -37,7 +65,7 @@ setSubmitted(false);
 // Handling the form submission
 const handleSubmit = (e) => {
 e.preventDefault();
-if (name === '' || postalCode === ''|| email === '' || password === '') {
+if (firstName === '' || lastName === '' || streetAddress === '' || city === '' || province === '' ||   postalCode === ''|| email === '' || password === '') {
 setError(true);
 } else {
 setSubmitted(true);
@@ -53,7 +81,7 @@ className="success"
 style={{
 display: submitted ? '' : 'none',
 }}>
-<h1>User {name} successfully registered!!</h1>
+<h1>User {firstName} successfully registered!!</h1>
 </div>
 );
 };
@@ -86,17 +114,33 @@ return (
 
 <form className= 'inputFeilds'>
 {/* Labels and inputs for form data */}
-<label className="label">Name</label>
-<input onChange={handleName} className="input"
-value={name} type="text" />
+<label className="label">First Name</label>
+<input onChange={handleFirstName} className="input"
+value={firstName} type="text" />
 
-<label className="label">Email</label>
-<input onChange={handleEmail} className="input"
-value={email} type="email" /> 
+<label className="label">Last Name</label>
+<input onChange={handleLastName} className="input"
+value={lastName} type="text" />
+
+<label className="label">Street Address</label>
+<input onChange={handleStreetAdress} className="input"
+value={streetAddress} type="text" />
+
+<label className="label">City</label>
+<input onChange={handleCity} className="input"
+value={city} type="text" /> 
+
+<label className="label">Province</label>
+<input onChange={handleProvince} className="input"
+value={province} type="text" />
 
 <label className="label">Postal Code</label>
 <input onChange={handlePostalCode} className="input"
 value={postalCode} type="text" />
+
+<label className="label">Email</label>
+<input onChange={handleEmail} className="input"
+value={email} type="email" /> 
 
 <label className="label">Password</label>
 <input onChange={handlePassword} className="input"
