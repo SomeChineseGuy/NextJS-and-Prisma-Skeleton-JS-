@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/adventure": "pages/adventure.js",
-  "/adventure/[id]": "pages/adventure/[id].js"
+  "/new": "pages/new.js",
+  "/match": "pages/match.js"
 }

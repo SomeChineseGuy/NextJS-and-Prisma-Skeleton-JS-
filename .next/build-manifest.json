@@ -25,10 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/adventure/[id]": [
+    "/match": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/adventure/[id].js"
+      "static/chunks/pages/match.js"
+    ],
+    "/new": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/new.js"
     ]
   },
   "ampFirstPages": []
