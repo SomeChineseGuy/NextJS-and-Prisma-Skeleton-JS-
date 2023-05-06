@@ -25,7 +25,7 @@ export default function Form({onSubmit, type, text, categories, accounts, titleR
               id='category' ref={cateRef}
               >
               {categories && categories.map(category => {
-                return <option value={category.name} key={category.id}>{category.name}</option>
+                return <option value={category.id} key={category.id}>{category.name}</option>
               })}
               </select>
             </div>
@@ -51,7 +51,7 @@ export default function Form({onSubmit, type, text, categories, accounts, titleR
               id='account' ref={accountRef}
               >
               {accounts && accounts.map(account => {
-                return <option value={account.name} key={account.id}>{account.name}</option>
+                return <option value={account.id} key={account.id}>{account.name}</option>
               })}
               </select>
             </div>
