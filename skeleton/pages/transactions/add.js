@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Form from "../components/form";
+import Form from "../../components/add-edit-delete/form";
 import { PrismaClient } from '@prisma/client'
 import axios from 'axios';
 
