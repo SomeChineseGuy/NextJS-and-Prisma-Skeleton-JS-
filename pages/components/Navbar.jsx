@@ -183,16 +183,18 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        <Link href="/">
-          <Image
-            src={Logo}
-            alt="Logo"
-            width="65"
-            height="25"
-            className="cursor-pointer pt-6"
-            priority
-          />
-        </Link>
+        <div className="flex flex-row justify-around pt-10 items-center">
+          <Link href="/">
+            <Image
+              src={Logo}
+              alt="Logo"
+              width="65"
+              height="25"
+              className="cursor-pointer pt-6"
+              priority
+            />
+          </Link>
+        </div>
       </div>
     </nav>
   );
