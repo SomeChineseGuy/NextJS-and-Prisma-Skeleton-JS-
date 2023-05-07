@@ -29,8 +29,8 @@ export default function Example() {
       </ul>
       <div className="flex">
         <img src="#" alt="Profile photo" />
-        <button>Login</button>
-        <button>Logout</button>
+        <a href="/api/auth/logout">Logout</a>
+        
       </div>
     </nav>
   ) 
