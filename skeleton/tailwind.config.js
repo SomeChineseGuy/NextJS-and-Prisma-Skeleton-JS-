@@ -14,15 +14,10 @@ module.exports = {
     extend: {},
     colors: {
       "nav-gray": "#D9D9D9",
+      "mid-gray": "#C6C5B9",
       "side-white": "#FDFDFF",
       transparent: "transparent",
       current: "currentColor",
-      black: colors.black,
-      white: colors.white,
-      gray: colors.gray,
-      emerald: colors.emerald,
-      indigo: colors.indigo,
-      yellow: colors.yellow,
     },
   },
 

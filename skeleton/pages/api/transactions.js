@@ -1,10 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { getTransactions } from "@/helpers/selectors";
 
 export default async function handler(req, res) {
-  const prisma = new PrismaClient();
+  const userId = 1;
+  const month = req.query.month;
+  const year = req.query.year;
 
-  const transactions = await prisma.transaction.findMany({
-    include: { sources: true, categories: true },
-  });
-  res.send(JSON.stringify(transactions));
+  const transactions = await getTransactions(userId, month, year);
+
+  res.send(JSON.stringify({ month, year, transactions }));
 }
