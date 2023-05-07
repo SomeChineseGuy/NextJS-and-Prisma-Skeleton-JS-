@@ -1,0 +1,1 @@
+{"version":3,"file":"signed-cookies.d.ts","sourceRoot":"","sources":["../../../src/auth0-session/utils/signed-cookies.ts"],"names":[],"mappings":"AAEA,eAAO,MAAM,cAAc,MAAa,MAAM,KAAK,MAAM,QAAQ,UAAU,EAAE,KAAG,QAAQ,MAAM,GAAG,SAAS,CAmBzG,CAAC;AAEF,eAAO,MAAM,mBAAmB,WAAkB,MAAM,SAAS,MAAM,OAAO,UAAU,KAAG,QAAQ,MAAM,CAKxG,CAAC"}
