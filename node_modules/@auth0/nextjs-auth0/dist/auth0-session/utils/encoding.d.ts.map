@@ -1,0 +1,1 @@
+{"version":3,"file":"encoding.d.ts","sourceRoot":"","sources":["../../../src/auth0-session/utils/encoding.ts"],"names":[],"mappings":"AAGA;;;;;;GAMG;AACH,wBAAgB,WAAW,CAAC,WAAW,EAAE;IAAE,CAAC,GAAG,EAAE,MAAM,GAAG,GAAG,CAAA;CAAE,GAAG,MAAM,CAMvE;AAED;;;;;;GAMG;AACH,wBAAgB,WAAW,CAAC,UAAU,CAAC,EAAE,MAAM,GAAG;IAAE,CAAC,GAAG,EAAE,MAAM,GAAG,GAAG,CAAA;CAAE,GAAG,SAAS,CAMnF"}
