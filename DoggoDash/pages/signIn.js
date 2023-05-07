@@ -1,9 +1,12 @@
-import { useState } from 'react';
+
 import Navbar from '@/src/components/nav.js' 
-export default function signIn () {
+import SignInForm from '@/src/components/signInForm.js' 
+
+export default function SignIn () {
   return (
 <div>
 <Navbar/>
+<SignInForm/>
 </div>
   )
 }
