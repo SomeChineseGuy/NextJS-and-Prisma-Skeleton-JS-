@@ -19,7 +19,7 @@ model User {
   about_me         String?
   current_location String?
   open_to_travel   Boolean?
-  profile_photo    Bytes? 
+  profile_photo    String?  
   match_creator    Match[] @relation("match_creator")
   match_guest      Match[] @relation("match_guest")
   Adventure        Adventure[]
@@ -29,7 +29,7 @@ model Destination {
   id          Int         @id @default(autoincrement())
   city        String
   country     String
-  photo       Bytes?
+  photo       String?
   description String?
   Adventure   Adventure[]
 }
