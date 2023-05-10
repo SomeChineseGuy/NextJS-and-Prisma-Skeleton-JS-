@@ -18,6 +18,8 @@ export default function Navbar() {
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
+
+    console.log(user);
   };
   return (
     <nav className="fixed w-full h-24 shadow-xl bg-orange-100">
