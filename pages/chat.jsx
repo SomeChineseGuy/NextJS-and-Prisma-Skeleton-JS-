@@ -54,7 +54,7 @@ export default function Chat() {
   }
 
   return (
-    <div >
+    <div className="flex messenger p-4 bg-white h-screen overflow-hidden" >
       <div className={styles.chatwindow}>
         {!showChat ? (
           <div className={styles.joinChatContainer}>
@@ -66,18 +66,27 @@ export default function Chat() {
           :
           (
             <div>
-              <div className={styles.matches}>
-                <input type="text" name="search" id="search" placeholder="Search" />
+              <div className="basis-2/6 pt-3 bg-white border-r border-slate-100">
                 <p>Match History</p>
+                <i className="fa fa-search pr-2"></i>
+                <input type="text" name="search" id="search" placeholder="Search" className="font-light focus:outline-none" />
+                <div className="flex hover:bg-slate-100 transition px-5 py-3 hover:cursor-pointer">
+                <div className="pr-4">
+                <img  width="50" />
+                <img src="https://robohash.org/etquasquis.png?size=50x50&set=set1" width="50" />
+                <h3 className="text 500 tex-md">Bob Ross</h3>
+                <p class="text-sm text-gray-400 font-light overflow-hidden h-5">Chat Message Preview</p>
+                </div>
               </div>
-              <div className={styles.chatheader}>
+              </div>
+              <div className="bg-orange-300 user-info-header px-5 py-3">
                 <p>Match</p>
-              </div>
+              </div >
               <div className={styles.chatbody}>
                 <ScrollToBottom className={styles.messagecontainer}>
                   {messageList.map((messageContent) => {
                     return (
-                      <div className={username === messageContent.author ? styles.you : styles.other}>
+                      <div className={username === messageContent.author ? "flex justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-sm max-w-[100%] rounded font-light" : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-sm max-w-[100%] rounded font-light"}>
                         <div className={styles.messagecontent}>
                           <p>{messageContent.message}</p>
                         </div>
