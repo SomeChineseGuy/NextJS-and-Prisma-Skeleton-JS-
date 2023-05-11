@@ -6,6 +6,7 @@ import { PrismaClient } from "@prisma/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import Herosection from "./components/Herosection";
+import Gallery from "./components/Gallery";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +16,12 @@ export default function Home({ blogs }) {
   // if (error) return <div>{error.message}</div>;
 
   // if (user) {
-  return <Herosection />;
+  return (
+    <>
+      <Herosection />
+      <Gallery />
+    </>
+  );
 }
 // }
 
