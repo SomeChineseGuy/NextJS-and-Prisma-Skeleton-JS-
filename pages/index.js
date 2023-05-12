@@ -7,6 +7,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 import Herosection from "./components/Herosection";
 import Gallery from "./components/Gallery";
+import { data } from "../pages/components/mockData";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,20 +20,27 @@ export default function Home({ blogs }) {
   return (
     <>
       <Herosection />
-      <Gallery />
+      <div className="flex flex-col justify-center items-center bg-orange-100">
+        <h2 className="text-3xl text-black text-left pt-8 pb-2 font-bold">
+          Top Destinations
+        </h2>
+        <p className="text-xl font-bold text-[#5271ff]">
+          Not sure where to go, here you'll find the answer
+        </p>
+        <Gallery data={data} />
+      </div>
     </>
   );
 }
 // }
 
-export async function getStaticProps() {
-  const prisma = new PrismaClient();
-  const blogs = await prisma.blog.findMany();
-
-  return {
-    props: { blogs },
-  };
-}
+// export async function getStaticProps() {
+//   // const prisma = new PrismaClient();
+//   // const blogs = await prisma.blog.findMany();
+//   // return {
+//   //   props: { blogs },
+//   // };
+// }
 
 // {user ? (
 //   <div>

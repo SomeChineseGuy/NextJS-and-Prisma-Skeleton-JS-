@@ -1,8 +1,9 @@
 import React from "react";
-import { data } from "./mockData";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import Image from "next/image";
 
-export default function Gallery() {
+export default function Gallery(props) {
+  console.log(props.props);
   const slideLeft = () => {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 500;
@@ -12,6 +13,8 @@ export default function Gallery() {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
+
+  const data = props.data;
 
   return (
     <>
@@ -23,11 +26,13 @@ export default function Gallery() {
         />
         <div
           id="slider"
-          className=" w-3/4 h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide bg-orange-100"
+          className=" w-5/6 h-full overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide bg-orange-100"
         >
           {data.map((item) => (
-            <img
-              className="w-[300px] inline-block p-7 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-full"
+            <Image
+              className="w-[300px] inline-block p-8 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-[35%]"
+              width="300"
+              height="300"
               src={item.img}
               alt="/"
               key={item.id}
