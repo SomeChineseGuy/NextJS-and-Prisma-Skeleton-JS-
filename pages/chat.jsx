@@ -62,6 +62,7 @@ export default function Chat(user) {
             <h3>TripMate Chat</h3>
             <input type="text" placeholder="username" onChange={(event) => setUsername(event.target.value)} />
             <input type="text" placeholder="room" onChange={(event) => setRoom(event.target.value)} />
+            <p>{user.user.email}</p>
             <button onClick={joinRoom}> Accept</button>
           </div>)
           :
@@ -105,7 +106,6 @@ export default function Chat(user) {
                 <button onClick={sendMessage}>&#9658;</button>
               </div>
             </div>)}
-            <p>{user.name}</p>
       </div>
     </div>
   )
@@ -113,9 +113,10 @@ export default function Chat(user) {
 
 export async function getStaticProps() {
   const prisma = new PrismaClient()
-  const user = await prisma.user.findMany()
+  const user = await prisma.user.findFirst()
+  console.log(user.email)
 
   return {
-    props : { user }
+    props : {user}
   }
 }
