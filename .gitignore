@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+node_modules
+.next
+=======
+.next
 .env
 .DS_store
-.next
 node_modules
+public/.DS_Store
+>>>>>>> refs/remotes/origin/main
