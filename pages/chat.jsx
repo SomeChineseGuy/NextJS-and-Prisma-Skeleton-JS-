@@ -2,11 +2,12 @@ import io from "socket.io-client"
 import { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom"
 import styles from '@/styles/chat.module.css'
+import { PrismaClient } from '@prisma/client'
 
 
 let socket;
 
-export default function Chat() {
+export default function Chat(user) {
   const [username, setUsername] = useState("")
   const [currentMessage, setCurrentMessage] = useState()
   const [messageList, setMessageList] = useState([])
@@ -104,9 +105,17 @@ export default function Chat() {
                 <button onClick={sendMessage}>&#9658;</button>
               </div>
             </div>)}
+            <p>{user.name}</p>
       </div>
     </div>
   )
 }
 
+export async function getStaticProps() {
+  const prisma = new PrismaClient()
+  const user = await prisma.user.findMany()
 
+  return {
+    props : { user }
+  }
+}
