@@ -73,11 +73,11 @@ export default function Navbar() {
               </li>
             </Link>
             <Link href="/profile">
-              <img
+              <Image
                 src={user.picture}
-                alt="Logo"
                 width="65"
                 height="25"
+                alt="Profile pic"
                 className="ml-10 cursor-pointer rounded-full"
                 priority
               />
