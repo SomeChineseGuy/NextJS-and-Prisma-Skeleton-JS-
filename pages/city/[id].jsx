@@ -12,18 +12,24 @@ export default function CityId({ destinations }) {
     <section className="pt-48 sm:pt-36 w-full h-[860px]  bg-orange-100">
       <section className="flex flex-col sm:flex-row justify-evenly">
         <div className="basis-1/2 lg:px-16">
-          <h2>left side picture of city with id {city["city"]}</h2>
-
-          <Image
-            src={city["photo"]}
-            width="200"
-            height="200"
-            alt="city photo"
-            priority
-          />
+          <div className="h-[558] w-[525] object-contain">
+            <Image
+              src={city["photo"]}
+              width="525"
+              height="558"
+              alt="City Photo"
+              className="ml-16 object-contain rounded-[20%]"
+            />
+          </div>
         </div>
         <div className="basis-1/2 mx-auto">
-          <h2>right side</h2>
+          <h1 className="text-6xl text-black text-left px-16 pt-16 pb-4 font-bold">
+            {city["city"]} <br />
+            <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#5271ff] to-[#5271ee]">
+              {city["country"]}
+            </span>
+          </h1>
+          <p className="text-gray-500 px-16 text-lg">{city["description"]}</p>
         </div>
       </section>
       <Gallery data={data} />
