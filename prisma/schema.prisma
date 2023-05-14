@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int         @id @default(autoincrement())
+  email            String      @unique
+  first_name       String
+  age              Int?
+  gender           String?
+  about_me         String?
+  current_location String?
+  open_to_travel   Boolean?
+  profile_photo    String?  
+  match_creator    Match[] @relation("match_creator")
+  match_guest      Match[] @relation("match_guest")
+  Adventure        Adventure[]
+}
+
+model Destination {
+  id          Int         @id @default(autoincrement())
+  city        String
+  country     String
+  photo       String?
+  description String?
+  Adventure   Adventure[]
+}
+
+model Match {
+  id           Int       @id @default(autoincrement())
+  active       Boolean
+  user_1       Int
+  user_id_1    User      @relation("match_creator", fields: [user_1], references: [id])
+  user_2       Int
+  user_id_2    User      @relation("match_guest", fields: [user_2], references: [id])
+  adventure    Int
+  adventure_id Adventure @relation(fields: [adventure], references: [id])
+  Chat         Chat[]
+}
+
+model Adventure {
+  id                Int         @id @default(autoincrement())
+  gender_preference String
+  destination       Int
+  destination_id    Destination @relation(fields: [destination], references: [id])
+  user              Int
+  user_id           User        @relation(fields: [user], references: [id])
+  Match Match[]
+  Chat  Chat[]
+}
+
+model Chat {
+  id           Int       @id @default(autoincrement())
+  adventure    Int
+  adventure_id Adventure @relation(fields: [adventure], references: [id])
+  match        Int
+  match_id     Match     @relation(fields: [match], references: [id])
+  active       Boolean
+  Message      Message[]
+}
+
+model Message {
+  id              Int    @id @default(autoincrement())
+  chat            Int
+  chat_id         Chat   @relation(fields: [chat], references: [id])
+  message_content String
+}
