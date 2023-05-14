@@ -8,7 +8,7 @@ async function main() {
     create: {
       email: 'dchristol1@pen.io',
       first_name: 'Davie',
-      age: 22,
+      age: "22",
       gender: "Male",
       about_me: "I love to travel",
       current_location: "Calgary",
@@ -22,7 +22,7 @@ async function main() {
     create: {
       email: 'okuhle5@gmpg.org',
       first_name: 'Ollie',
-      age: 26,
+      age: "26",
       gender: "Male",
       about_me: "I love to travel",
       current_location: "Cumba",
@@ -36,7 +36,7 @@ async function main() {
     create: {
       email: 'rluetkemeyer0@state.tx.us',
       first_name: 'Roslyn',
-      age: 29,
+      age: "29",
       gender: "Female",
       about_me: "I love to travel",
       current_location: "Mukdahan",
@@ -50,7 +50,7 @@ async function main() {
     create: {
       email: 'bob@gmail.com',
       first_name: 'Bob',
-      age: 35,
+      age: "35",
       gender: "Male",
       about_me: "I love to travel",
       current_location: "Toronto",
@@ -64,7 +64,7 @@ async function main() {
     create: {
       email: 'jane@gmail.com',
       first_name: 'Jane',
-      age: 31,
+      age: "31",
       gender: "Female",
       about_me: "I love to travel",
       current_location: "Texas",
