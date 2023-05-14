@@ -8,3 +8,4 @@ node_modules
 node_modules
 public/.DS_Store
 >>>>>>> refs/remotes/origin/main
+prisma/dev.db
