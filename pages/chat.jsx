@@ -1,23 +1,22 @@
 import io from "socket.io-client"
 import { useEffect, useState } from "react";
-import ScrollToBottom from "react-scroll-to-bottom"
-import styles from '@/styles/chat.module.css'
 import { PrismaClient } from '@prisma/client'
-
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 let socket;
 
-export default function Chat(user) {
-  const [username, setUsername] = useState("")
+export default function Chat(users) {
   const [currentMessage, setCurrentMessage] = useState()
   const [messageList, setMessageList] = useState([])
   const [room, setRoom] = useState("")
-  const [showChat, setShowChat] = useState(false)
+  const {user}  = useUser();
+  const [conversation, setConversation] = useState()
+  const [activeChat, setActiveChat] = useState()
 
   useEffect(() => {
     socketInitializer();
   }, [])
-
+  
   const socketInitializer = async () => {
     await fetch("/api/socket");
     socket = io();
@@ -31,92 +30,207 @@ export default function Chat(user) {
     };
   }
 
-  const joinRoom = () => {
-    if (username !== "") {
-      socket.emit("join_room", room)
-      setShowChat(true)
-    }
+  let activeEmail = "";
+
+  if(user){
+    activeEmail = user.email
   }
 
+  const usersList = users.users
+  const matchList = users.match
+  const chatList = users.chat
+  const messagesList = users.messages
+
+  let validUser = {}
+  let matchHistory = []
+  let matchedUsers = []
+  let matchedChats = []
+  let matchedMessages = []
+  let openChat = []
+
+  //Find Active Logged-In User 
+  usersList.forEach(function (item) {
+    if(item.email === activeEmail){
+      validUser = item
+    }
+    return validUser
+  })
+
+  //Find Matches for Active Logged-In User 
+  matchList.forEach(function (item) {
+    if(item.user_1 === validUser.id){
+      matchHistory.push(item)
+    }
+    return matchHistory
+  })
+
+  //Return User Information for the Matches 
+  usersList.forEach(function (item){
+    matchHistory.forEach(function (items) {
+      if(item.id === items.user_2 ){
+        matchedUsers.push(item)
+      }
+    })
+    return matchedUsers
+  })
+
+
+  // Return Chat Information for the Matches
+  chatList.forEach(function (item){
+    matchHistory.forEach(function (items) {
+    if(item.match === items.id){
+      matchedChats.push(item)
+    }
+  })
+    return matchedChats
+  })
+
+  //Return Message History for Chat Matches 
+  messagesList.forEach(function (item){
+    matchedChats.forEach(function (items) {
+      if(item.id === items.id){
+        matchedMessages.push(item)
+      }
+    })
+    return matchedMessages
+  })
+
+  //On click set the active conversation 
+  const handleClick = (e) =>{
+    setConversation(e.target.innerText)
+    setRoom(e.target.innerText)
+    socket.emit("join_room", room)
+  }
+  
+
+  //Based on the conversation selected find the user information 
+  matchedUsers.forEach(function (item) {
+    if(item.first_name === conversation){
+      openChat = item
+    }
+    return openChat
+  })
+
+  let chatHistory = []
+  let chatInformation = []
+  let chatMessages = []
+
+  //Based on the user selected find their chat history 
+  matchList.forEach(function (item) {
+    if(item.user_2 === openChat.id){
+      chatHistory.push(item)
+    }
+    return chatHistory
+  })
+
+  //Based on the chat history find the chat information for this chat
+  chatList.forEach(function (item){
+    chatHistory.forEach(function (items) {
+    if(item.match === items.id){
+      chatInformation.push(item)
+    }
+  })
+    return chatInformation
+  })
+
+
+
+  //Based on the chat information find the messages for the chat. 
+  messagesList.forEach(function (item){
+    chatInformation.forEach(function (items) {
+      if(item.chat === items.id){
+        chatMessages.push(item)
+      }
+    })
+    return chatMessages
+  })
+
+
   const sendMessage = async () => {
+    setActiveChat(chatInformation[0].id)
     if (currentMessage !== "") {
       const messageData = {
         room: room,
-        author: username,
+        activeChat: activeChat,
+        sender: false,
         message: currentMessage,
-        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
       }
       socket.emit("send", messageData)
       setMessageList((list) =>
         [...list, messageData]
       )
+      let dataActiveChat = messageData.activeChat
+      let dataSender = messageData.sender
+      let dataMessage = messageData.message
+      const body = {dataActiveChat, dataSender, dataMessage}
+      await fetch('/api/chat', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body),
+      })
+    }
       setCurrentMessage("")
     }
-  }
 
   return (
-    <div className="flex messenger p-4 bg-white h-screen overflow-hidden" >
-      <div className={styles.chatwindow}>
-        {!showChat ? (
-          <div className={styles.joinChatContainer}>
-            <h3>TripMate Chat</h3>
-            <input type="text" placeholder="username" onChange={(event) => setUsername(event.target.value)} />
-            <input type="text" placeholder="room" onChange={(event) => setRoom(event.target.value)} />
-            <p>{user.user.email}</p>
-            <button onClick={joinRoom}> Accept</button>
-          </div>)
-          :
-          (
-            <div>
-              <div className="basis-2/6 pt-3 bg-white border-r border-slate-100">
-                <p>Match History</p>
-                <i className="fa fa-search pr-2"></i>
-                <input type="text" name="search" id="search" placeholder="Search" className="font-light focus:outline-none" />
-                <div className="flex hover:bg-slate-100 transition px-5 py-3 hover:cursor-pointer">
-                <div className="pr-4">
-                <img  width="50" />
-                <img src="https://robohash.org/etquasquis.png?size=50x50&set=set1" width="50" />
-                <h3 className="text 500 tex-md">Bob Ross</h3>
-                <p class="text-sm text-gray-400 font-light overflow-hidden h-5">Chat Message Preview</p>
+    <div className="pt-40 bg-orange-100">
+            <div className="flex">
+              <div className=" w-80 h-screen bg-orange-100">
+              <h3 className="uppercase text-center text-[#5271ff] ">Awaiting Matches</h3>
+              <div className="pr-4 hover:bg-slate-100 transition px-5 py-3 hover:cursor-pointer">
+                </div>
+              <h3 className="uppercase text-center text-[#5271ff]">Chat History</h3>
+              <div className="flex-col">
+                  {matchedUsers.map((match) => 
+                  <div className="pr-4 hover:bg-slate-100 transition px-5 py-3">
+                   <h3 onClick={handleClick} className="hover:cursor-pointer 500 text-md text-[#5271ff]">{match.first_name}</h3>
+                   <img  priority className="rounded-full " src={match.profile_photo} width="65" height="50" alt="Profile pic"/>
+                   </div>
+                   )}
                 </div>
               </div>
-              </div>
-              <div className="bg-orange-300 user-info-header px-5 py-3">
-                <p>Match</p>
-              </div >
-              <div className={styles.chatbody}>
-                <ScrollToBottom className={styles.messagecontainer}>
-                  {messageList.map((messageContent) => {
+              <div className="flex-grow h-screen ">
+              <div className="border border-orange-300 ">
+                <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-3 flex items-center">
+                  <h3>{openChat.first_name}</h3>
+                  <img className="ml-10 rounded-full" priority src={openChat.profile_photo} width="50" />
+                </div >
+                <div className=" message-area mt-4 px-4 h-96 bg-white">
+                  {chatMessages.map((previousMessages) => {
                     return (
-                      <div className={username === messageContent.author ? "flex justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-sm max-w-[100%] rounded font-light" : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-sm max-w-[100%] rounded font-light"}>
-                        <div className={styles.messagecontent}>
+                      <div className={previousMessages.sender === false ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light" : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"}>{previousMessages.message_content}
+                      </div>
+                    )
+                  })}
+                  {messageList.map((messageContent) =>
+                    openChat.first_name === messageContent.room ? (
+                      <div className={messageContent.sender === false? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light" : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"}>
+                        <div className="">
                           <p>{messageContent.message}</p>
                         </div>
-                        <div className={styles.messagemeta}>
-                          <p className={styles.time}>{messageContent.time}</p>
-                          <p className={styles.author}>{messageContent.author}</p>
-                        </div>
                       </div>
-                    );
-                  })}
-                </ScrollToBottom>
+                  )
+                   : (<div></div>)  
+                  )}
+                </div>
+                <div className="bg-gray-100 pl-4">
+                  <input type="text" value={currentMessage} placeholder="New Message" onChange={(event) => setCurrentMessage(event.target.value)} onKeyPress={(event) => { event.key === "Enter" && sendMessage() }} />
+                  <button className="bg-orange-300" onClick={sendMessage}>&#9658;</button>
+                </div>
+              </div >
               </div>
-              <div className={styles.chatfooter}>
-                <input type="text" value={currentMessage} placeholder="New Message" onChange={(event) => setCurrentMessage(event.target.value)} onKeyPress={(event) => {event.key === "Enter" && sendMessage()}} />
-                <button onClick={sendMessage}>&#9658;</button>
-              </div>
-            </div>)}
+            </div>
       </div>
-    </div>
-  )
+ )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const prisma = new PrismaClient()
-  const user = await prisma.user.findFirst()
-  console.log(user.email)
-
+  const users = await prisma.user.findMany()
+  const match = await prisma.match.findMany()
+  const chat = await prisma.chat.findMany()
+  const messages = await prisma.message.findMany()
   return {
-    props : {user}
+    props: { users, match, chat, messages }
   }
 }
