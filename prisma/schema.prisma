@@ -53,8 +53,8 @@ model Adventure {
   destination_id    Destination @relation(fields: [destination], references: [id])
   user              Int
   user_id           User        @relation(fields: [user], references: [id])
-  Match Match[]
-  Chat  Chat[]
+  Match             Match[]
+  Chat              Chat[]
 }
 
 model Chat {
@@ -71,5 +71,6 @@ model Message {
   id              Int    @id @default(autoincrement())
   chat            Int
   chat_id         Chat   @relation(fields: [chat], references: [id])
-  message_content String
+  message_content String?
+  sender          Boolean?       
 }
