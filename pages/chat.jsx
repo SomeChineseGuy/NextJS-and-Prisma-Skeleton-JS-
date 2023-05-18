@@ -177,10 +177,7 @@ export default function Chat(users) {
     <div className="pt-40 bg-orange-100">
             <div className="flex">
               <div className=" w-80 h-screen bg-orange-100">
-              <h3 className="uppercase text-center text-[#5271ff] ">Awaiting Matches</h3>
-              <div className="pr-4 hover:bg-slate-100 transition px-5 py-3 hover:cursor-pointer">
-                </div>
-              <h3 className="uppercase text-center text-[#5271ff]">Chat History</h3>
+              <h3 className="uppercase text-center text-[#5271ff] text-lg font-bold pt-4">Chat History</h3>
               <div className="flex-col">
                   {matchedUsers.map((match) => 
                   <div className="pr-4 hover:bg-slate-100 transition px-5 py-3">
@@ -192,7 +189,7 @@ export default function Chat(users) {
               </div>
               <div className="flex-grow h-screen ">
               <div className="border border-orange-300 ">
-                <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-3 flex items-center">
+                <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center">
                   <h3>{openChat.first_name}</h3>
                   <img className="ml-10 rounded-full" priority src={openChat.profile_photo} width="50" />
                 </div >
@@ -214,8 +211,8 @@ export default function Chat(users) {
                    : (<div></div>)  
                   )}
                 </div>
-                <div className="bg-gray-100 pl-4">
-                  <input type="text" value={currentMessage} placeholder="New Message" onChange={(event) => setCurrentMessage(event.target.value)} onKeyPress={(event) => { event.key === "Enter" && sendMessage() }} />
+                <div className="bg-orange-300">
+                  <input className="pl-20" type="text" value={currentMessage} placeholder="New Message" onChange={(event) => setCurrentMessage(event.target.value)} onKeyPress={(event) => { event.key === "Enter" && sendMessage() }} />
                   <button className="bg-orange-300" onClick={sendMessage}>&#9658;</button>
                 </div>
               </div >
