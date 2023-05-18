@@ -2,6 +2,7 @@ import io from "socket.io-client"
 import { useEffect, useState } from "react";
 import { PrismaClient } from '@prisma/client'
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0'
 
 let socket;
 
@@ -151,7 +152,7 @@ export default function Chat(users) {
     if (currentMessage !== "") {
       const messageData = {
         room: room,
-        activeChat: activeChat,
+        activeChat: (activeChat || chatInformation[0].id),
         sender: false,
         message: currentMessage,
       }
@@ -224,13 +225,29 @@ export default function Chat(users) {
  )
 }
 
-export async function getServerSideProps() {
-  const prisma = new PrismaClient()
-  const users = await prisma.user.findMany()
-  const match = await prisma.match.findMany()
-  const chat = await prisma.chat.findMany()
-  const messages = await prisma.message.findMany()
-  return {
-    props: { users, match, chat, messages }
+// export async function getServerSideProps(context) {
+//   console.log(context.req)
+//   const prisma = new PrismaClient()
+//   const users = await prisma.user.findMany()
+//   const match = await prisma.match.findMany()
+//   const chat = await prisma.chat.findMany()
+//   const messages = await prisma.message.findMany()
+//   return {
+//     props: { users, match, chat, messages }
+//   }
+// }
+
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(context) {
+    const session = await getSession(context.req, context.res)
+    console.log(session.user.email)
+    const prisma = new PrismaClient()
+      const users = await prisma.user.findMany()
+      const match = await prisma.match.findMany()
+      const chat = await prisma.chat.findMany()
+      const messages = await prisma.message.findMany()
+      return {
+        props: { users, match, chat, messages }
+      }
   }
-}
+});
