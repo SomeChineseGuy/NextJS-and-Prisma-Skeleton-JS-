@@ -72,6 +72,7 @@ async function main() {
       profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
     },
   })
+  
 
   const paris = await prisma.destination.upsert({
     where: { id: 2 },
@@ -143,7 +144,30 @@ async function main() {
       description: "Rome is one of those destinations that sits on many travelers' must-see someday lists. The culture of Rome and its historic architecture are its main draws. The Colosseum, Pantheon, Trevi fountain, and the Vatican usually top the list of things vacationers want to check off their list.",
     },
   })
-  console.log(rome)
+  const brooke = await prisma.user.upsert({
+    where: { email: 'brooke.nagy987@gmail.com' },
+    update: {},
+    create: {
+      email: 'brooke.nagy987@gmail.com',
+      first_name: 'Brooke',
+      age: 30,
+      gender: "Female",
+      about_me: "I love to travel",
+      current_location: "Calgary",
+      open_to_travel: true,
+      profile_photo: "",
+      Adventure: {
+        create: [
+          {
+            gender_preference: "Any",
+            destination_id: {
+              connect: {id: 2}
+            }
+          }
+        ]
+      },
+    },
+  })
 }
 main()
   .then(async () => {
