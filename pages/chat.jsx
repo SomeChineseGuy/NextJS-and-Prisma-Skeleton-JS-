@@ -181,8 +181,8 @@ export default function Chat(users) {
               <div className="flex-col">
                   {matchedUsers.map((match) => 
                   <div className="pr-4 hover:bg-slate-100 transition px-5 py-3">
-                   <h3 onClick={handleClick} className="hover:cursor-pointer 500 text-md text-[#5271ff]">{match.first_name}</h3>
-                   <img  priority className="rounded-full " src={match.profile_photo} width="65" height="50" alt="Profile pic"/>
+                   <h3 onClick={handleClick} className="hover:cursor-pointer 500 text-lg text-[#5271ff] text-center">{match.first_name}</h3>
+                   <img  priority className="ml-28 rounded-full" src={match.profile_photo} width="65" height="50" alt="Profile pic"/>
                    </div>
                    )}
                 </div>
@@ -193,7 +193,7 @@ export default function Chat(users) {
                   <h3>{openChat.first_name}</h3>
                   <img className="ml-10 rounded-full" priority src={openChat.profile_photo} width="50" />
                 </div >
-                <div className=" message-area mt-4 px-4 h-96 bg-white">
+                <div className=" message-area mt-4 px-4 h-96 bg-white overflow-y-auto">
                   {chatMessages.map((previousMessages) => {
                     return (
                       <div className={previousMessages.sender === false ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light" : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"}>{previousMessages.message_content}
@@ -211,9 +211,9 @@ export default function Chat(users) {
                    : (<div></div>)  
                   )}
                 </div>
-                <div className="bg-orange-300">
-                  <input className="pl-20" type="text" value={currentMessage} placeholder="New Message" onChange={(event) => setCurrentMessage(event.target.value)} onKeyPress={(event) => { event.key === "Enter" && sendMessage() }} />
-                  <button className="bg-orange-300" onClick={sendMessage}>&#9658;</button>
+                <div className="bg-orange-300 flex">
+                  <input className="px-3 py-4 placeholder-slate-300 text-slate-600 relative bg-white w-11/12" type="text" value={currentMessage} placeholder="New Message" onChange={(event) => setCurrentMessage(event.target.value)} onKeyPress={(event) => { event.key === "Enter" && sendMessage() }} />
+                  <button className="bg-orange-300 pl-8" onClick={sendMessage}> &#9658; Send</button>
                 </div>
               </div >
               </div>
