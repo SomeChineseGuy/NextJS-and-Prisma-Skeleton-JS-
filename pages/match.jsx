@@ -4,6 +4,7 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 import { useRouter } from "next/router";
 import { data } from "../pages/components/mockData";
+import { PrismaClient } from "@prisma/client";
 
 export default function Match({ users }) {
   const [currentIndex, setCurrentIndex] = useState(0);
