@@ -2,8 +2,8 @@ import React from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Image from "next/image";
 
+
 export default function Gallery(props) {
-  console.log(props.props);
   const slideLeft = () => {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 500;
@@ -15,6 +15,10 @@ export default function Gallery(props) {
   };
 
   const data = props.data;
+
+  const handleClick= () => {
+  
+  }
 
   return (
     <>
@@ -33,9 +37,11 @@ export default function Gallery(props) {
               className="w-[300px] inline-block p-8 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-[35%]"
               width="300"
               height="300"
-              src={item.img}
+              src={item.photo}
               alt="/"
               key={item.id}
+              priority
+              onClick={handleClick}
             />
           ))}
         </div>
