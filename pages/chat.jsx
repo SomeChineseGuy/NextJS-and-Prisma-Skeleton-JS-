@@ -190,7 +190,7 @@ export default function Chat(users) {
               <div className="flex-grow h-screen ">
               <div className="border border-orange-300 ">
                 <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center">
-                  <h3>{openChat.first_name}</h3>
+                  <h3 className="text-lg">{openChat.first_name}</h3>
                   <img className="ml-10 rounded-full" priority src={openChat.profile_photo} width="50" />
                 </div >
                 <div className=" message-area mt-4 px-4 h-96 bg-white overflow-y-auto">
