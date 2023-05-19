@@ -22,6 +22,12 @@ export default function Profile(users) {
     email = user.email
     photo = user.picture
     userList = users.users
+    userList.forEach(function (item) {
+      if(item.email === email){
+        validUser = item  
+      }
+      return validUser
+    })
   }
   const [age, setAge] = useState("")
   const [gender, setGender] = useState("")
@@ -29,12 +35,6 @@ export default function Profile(users) {
   const [aboutMe, setAboutMe] = useState("")
   let validUser = {}
 
-  userList.forEach(function (item) {
-    if(item.email === email){
-      validUser = item  
-    }
-    return validUser
-  })
 
   const saveProfile = async e => {
     e.preventDefault();
