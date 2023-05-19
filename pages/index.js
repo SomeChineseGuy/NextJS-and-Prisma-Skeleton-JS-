@@ -12,7 +12,7 @@ import { FaPassport } from "react-icons/fa";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ blogs }) {
+export default function Home( {destinations }) {
   const { user, error, isLoading } = useUser();
   // if (isLoading) return <div>Loading...</div>;
   // if (error) return <div>{error.message}</div>;
@@ -39,14 +39,6 @@ export default function Home({ blogs }) {
     </>
   );
 }
-// }
-
-// export async function getStaticProps() {
-//   // const prisma = new PrismaClient();
-//   // const blogs = await prisma.blog.findMany();
-//   // return {
-//   //   props: { blogs },
-//   // };
 // }
 
 // {user ? (
