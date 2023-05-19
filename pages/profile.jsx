@@ -14,16 +14,19 @@ export default function Profile(users) {
   if (error) return <div>{error.message}</div>;
 
   const [firstName, setFirstName] = useState("")
-  let email = ""
+  let email;
+  let photo; 
+  let userList;
+
   if(user){
     email = user.email
+    photo = user.picture
+    userList = users.users
   }
   const [age, setAge] = useState("")
   const [gender, setGender] = useState("")
   const [currentLocation, setCurrentLocation] = useState("")
   const [aboutMe, setAboutMe] = useState("")
-  const photo = user.picture
-  const userList = users.users
   let validUser = {}
 
   userList.forEach(function (item) {
