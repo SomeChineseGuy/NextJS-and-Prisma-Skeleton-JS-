@@ -2,26 +2,56 @@ import { PrismaClient } from "@prisma/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useFormik } from "formik";
 import City from "./city";
+import { useState } from "react";
 
 export default function New({ destinations }) {
   // Auth0
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
-  // formik
-  const formik = useFormik({
-    initialValues: {
-      user: user ? user.email : "Mario",
-      country: "",
-      city: "",
-      gender: "Female",
-      openToTravel: "Heck Yeah!",
-    },
-    //submit form
-    onSubmit: (values) => {
-      console.log(values);
-    },
+  const [formValue, setFormValue] = useState({
+    user: user ? user.email : "Mario",
   });
+  // formik
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValue((prev) => ({ ...prev, [name]: value }));
+  };
+  console.log("form value", formValue);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const objValidation = Object.keys(formValue).filter(
+      (value) => !formValue[value]
+    );
+    console.log(objValidation);
+    if (objValidation.length === 0 && Object.keys(formValue).length === 4) {
+      await fetch("/api/new", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValue),
+      });
+    }
+  };
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     user: user ? user.email : "Mario",
+  //     country: "France",
+  //     city: "Paris",
+  //     gender: "Female",
+  //     openToTravel: "true",
+  //   },
+  //   //submit form
+  //   onSubmit: async (values) => {
+  //     console.log(values);
+  //     await fetch("/api/new", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(values),
+  //     });
+  //   },
+  // });
   // console.log(formik.city);
   return (
     <section className="pt-48 bg-orange-100 w-full h-[800px] flex items-center justify-center">
@@ -29,8 +59,8 @@ export default function New({ destinations }) {
         <article className="basis-1/2 px-4 ">
           <h2 className="font-extrabold text-3xl">New Adventure</h2>
           <div>
-            <form onSubmit={formik.handleSubmit}>
-              {/* <input type="text" className="hidden" value={user.email} /> */}
+            <form onSubmit={handleSubmit}>
+              <input type="text" className="hidden" value={user.email} />
               <div className="mt-6">
                 {/* Country Field */}
                 <div className="pb-4">
@@ -40,8 +70,11 @@ export default function New({ destinations }) {
                   <select
                     className="border-2 border-blue-200 p-2 rounded-md focus:border-[#EE8162] focus:ring-blue-600 w-1/2 hover:shadow-sm hover:shadow-blue-800"
                     name="country"
-                    onChange={formik.handleChange}
+                    onChange={handleChange}
+                    value={formValue["country"]}
                   >
+                    <option value={""}>-- select an option --</option>
+
                     {destinations.map((destination) => (
                       <option>{destination.country}</option>
                     ))}
@@ -55,16 +88,21 @@ export default function New({ destinations }) {
                   <select
                     className="border-2 border-blue-200 p-2 rounded-md focus:border-[#EE8162] focus:ring-blue-600 w-1/2 hover:shadow-sm hover:shadow-blue-800"
                     name="city"
-                    onChange={formik.handleChange}
+                    onChange={handleChange}
+                    value={formValue["city"]}
                   >
+                    <option value={""}> -- select an option --</option>
+
                     {/* logic to filter city by country */}
                     {destinations
                       .filter(
                         (destination) =>
-                          destination.country === formik.values.country
+                          destination.country === formValue["country"]
                       )
                       .map((destination) => (
-                        <option>{destination.city}</option>
+                        <option value={destination.id}>
+                          {destination.city}
+                        </option>
                       ))}
                   </select>
                 </div>
@@ -72,19 +110,20 @@ export default function New({ destinations }) {
                 <div className="flex w-full">
                   <div className="pb-4">
                     <label className="block pb-2" htmlFor="Gender">
-                      Gender:
+                      Prefered Gender to Travel:
                     </label>
                     <select
                       className="border-2 border-blue-200 p-2 rounded-md focus:border-[#EE8162] focus:ring-blue-600 w-5/6 hover:shadow-sm hover:shadow-blue-800"
-                      name="city"
-                      onChange={formik.handleChange}
+                      name="gender_preference"
+                      onChange={handleChange}
                     >
+                      <option value={""}>-- select an option --</option>
                       <option>Female</option>
                       <option>Male</option>
                       <option>Non Binary</option>
                     </select>
                   </div>
-                  {/* Open to Travel Field */}
+                  {/* Open to Travel Field
                   <div className="pb-4 ml-[15px]">
                     <label className="block pb-2" htmlFor="openToTravel">
                       Open to Travel:
@@ -92,18 +131,25 @@ export default function New({ destinations }) {
                     <select
                       className="border-2 border-blue-200 p-2 rounded-md focus:border-[#EE8162] focus:ring-blue-600 w-5/6 hover:shadow-sm hover:shadow-blue-800"
                       name="openToTravel"
-                      onChange={formik.handleChange}
+                      onChange={handleChange}
                     >
-                      <option>Heck Yeah!</option>
-                      <option>Can't right now</option>
+                      <option value={""}>-- select an option --</option>
+                      <option value={true}>Heck Yeah!</option>
+                      <option value={false}>Can't right now</option>
                     </select>
-                  </div>
+                  </div> */}
                 </div>
                 <button
                   className="bg-blue-600 text-white m-1 py-3 w-1/2 rounded-lg"
                   type="submit"
                 >
                   let's travel!
+                </button>
+                <button
+                  className="bg-red-300 text-white m-1 py-3 w-1/2 rounded-lg"
+                  onClick={() => setFormValue({})}
+                >
+                  Clear From
                 </button>
               </div>
             </form>
