@@ -3,7 +3,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useFormik } from "formik";
 import City from "./city";
 
-export default function New() {
+export default function New({ destinations }) {
   // Auth0
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
@@ -12,8 +12,8 @@ export default function New() {
   const formik = useFormik({
     initialValues: {
       user: user ? user.email : "Mario",
-      country: "Canada",
-      city: "Toronto",
+      country: "",
+      city: "",
       gender: "Female",
       openToTravel: "Heck Yeah!",
     },
@@ -22,6 +22,7 @@ export default function New() {
       console.log(values);
     },
   });
+  // console.log(formik.city);
   return (
     <section className="pt-48 bg-orange-100 w-full h-[800px] flex items-center justify-center">
       <section className="flex border-solid border-blue-800 border-4 w-[1100px] h-[600px]">
@@ -41,10 +42,9 @@ export default function New() {
                     name="country"
                     onChange={formik.handleChange}
                   >
-                    <option>Canada</option>
-                    <option>United States</option>
-                    <option>India</option>
-                    <option>Thailand</option>
+                    {destinations.map((destination) => (
+                      <option>{destination.country}</option>
+                    ))}
                   </select>
                 </div>
                 {/* City Field */}
@@ -57,10 +57,15 @@ export default function New() {
                     name="city"
                     onChange={formik.handleChange}
                   >
-                    <option>Toronto</option>
-                    <option>Houston</option>
-                    <option>Dehli</option>
-                    <option>Phi Phi</option>
+                    {/* logic to filter city by country */}
+                    {destinations
+                      .filter(
+                        (destination) =>
+                          destination.country === formik.values.country
+                      )
+                      .map((destination) => (
+                        <option>{destination.city}</option>
+                      ))}
                   </select>
                 </div>
                 {/* Gender Field */}
@@ -121,7 +126,9 @@ export default function New() {
 export async function getStaticProps() {
   const prisma = new PrismaClient();
   // const users = await prisma.user.findMany();
-  const destinations = await prisma.destination.findMany();
+  const destinations = await prisma.destination.findMany({
+    distinct: ["country"],
+  });
   return {
     props: { destinations },
   };
