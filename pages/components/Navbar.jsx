@@ -9,18 +9,34 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
+
+
 //font from google
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Navbar() {
+export default function Navbar(users) {
+  const userList = users.users.users
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, error, isLoading } = useUser();
 
   const handleNav = () => {
     setMenuOpen(!menuOpen);
-
-    console.log(user);
   };
+
+  let activeUser 
+  let email;
+
+  if(user) {
+    email = user.email
+  }
+
+  userList.forEach(function (item) {
+    if (item.email === email) {
+      activeUser = item
+    }
+    return activeUser
+  })
+
   return (
     <nav className="fixed w-full h-24 shadow-xl bg-orange-100">
       <div className="flex justify-between items-center h-full w-full px-4 2xl:px-16">
@@ -36,27 +52,30 @@ export default function Navbar() {
         </Link>
         <div className="hidden sm:flex">
           <ul className="hidden sm:flex">
+          {user && (
+            <>
             <Link href="/">
               <li className="ml-10 uppercase hover:border-b text-sm">Home</li>
-            </Link>
-            <Link href="/new">
-              <li className="ml-10 uppercase hover:border-b text-sm">
-                New Adventure
-              </li>
             </Link>
             <Link href="/profile">
               <li className="ml-10 uppercase hover:border-b text-sm">
                 Profile
               </li>
             </Link>
+            </>
+            )}
+            {activeUser && (
+              <>
+            <Link href="/new">
+              <li className="ml-10 uppercase hover:border-b text-sm">
+                New Adventure
+              </li>
+            </Link>
             <Link href="/chat">
               <li className="ml-10 uppercase hover:border-b text-sm">Chats</li>
             </Link>
-            <Link href="/notifications">
-              <li className="ml-10 uppercase hover:border-b text-sm">
-                Notifications
-              </li>
-            </Link>
+            </>
+            )}
             <Link href="/about">
               <li className="ml-10 uppercase hover:border-b text-sm">About</li>
             </Link>
@@ -140,14 +159,6 @@ export default function Navbar() {
                 className="py-4 cursor-pointer"
               >
                 Chats
-              </li>
-            </Link>
-            <Link href="/notifications">
-              <li
-                onClick={() => setMenuOpen(false)}
-                className="py-4 cursor-pointer"
-              >
-                Notifications
               </li>
             </Link>
             <Link href="/about">
