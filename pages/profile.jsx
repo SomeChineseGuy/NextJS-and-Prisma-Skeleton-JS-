@@ -4,7 +4,7 @@ import Gallery from "./components/Gallery";
 import { data } from "../pages/components/mockData";
 import Image from "next/image";
 import { PrismaClient } from "@prisma/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 
 
 export default function Profile(users) {
