@@ -14,7 +14,10 @@ export default function Profile(users) {
   if (error) return <div>{error.message}</div>;
 
   const [firstName, setFirstName] = useState("")
-  const email = user.email
+  let email = ""
+  if(user){
+    email = user.email
+  }
   const [age, setAge] = useState("")
   const [gender, setGender] = useState("")
   const [currentLocation, setCurrentLocation] = useState("")
