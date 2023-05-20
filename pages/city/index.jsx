@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
 export default function City({ destinations }) {
-  console.log(destinations);
   return (
     <div className="pt-48">
       <h1>List of cities</h1>

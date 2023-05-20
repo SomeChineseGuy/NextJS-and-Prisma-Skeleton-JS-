@@ -2,7 +2,6 @@ import { useState } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 export default function Carousel({ children: users }) {
-  console.log(users);
   const [curr, setCurr] = useState(0);
 
   const prev = () =>
