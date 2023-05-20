@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import aboutImg from ".././public/aboutImg.png";
 import customerReview from ".././public/customerReview.png";
 import Image from "next/image";
-import satisfaction from ".././public/satisfaction.png";
 
 export default function About() {
   return (
