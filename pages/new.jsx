@@ -4,8 +4,11 @@ import { useFormik } from "formik";
 import City from "./city";
 import { useState } from "react";
 import { HiLocationMarker } from "react-icons/hi";
+import { useRouter } from "next/router";
 
 export default function New({ destinations }) {
+  const router = useRouter();
+  console.log(router);
   // Auth0
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
@@ -130,12 +133,6 @@ export default function New({ destinations }) {
                   type="submit"
                 >
                   let's travel!
-                </button>
-                <button
-                  className="bg-red-300 text-white m-1 py-3 w-1/2 rounded-lg"
-                  onClick={() => setFormValue({})}
-                >
-                  Clear From
                 </button>
               </div>
             </form>
