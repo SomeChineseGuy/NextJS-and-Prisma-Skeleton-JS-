@@ -9,13 +9,11 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-
-
 //font from google
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Navbar(users) {
-  const userList = users.users.users
+  const userList = users.users.users;
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, error, isLoading } = useUser();
 
@@ -23,19 +21,19 @@ export default function Navbar(users) {
     setMenuOpen(!menuOpen);
   };
 
-  let activeUser 
+  let activeUser;
   let email;
 
-  if(user) {
-    email = user.email
+  if (user) {
+    email = user.email;
   }
 
-  userList.forEach(function (item) {
-    if (item.email === email) {
-      activeUser = item
-    }
-    return activeUser
-  })
+  // userList.forEach(function (item) {
+  //   if (item.email === email) {
+  //     activeUser = item
+  //   }
+  //   return activeUser
+  // })
 
   return (
     <nav className="fixed w-full h-24 shadow-xl bg-orange-100">
@@ -52,29 +50,33 @@ export default function Navbar(users) {
         </Link>
         <div className="hidden sm:flex">
           <ul className="hidden sm:flex">
-          {user && (
-            <>
-            <Link href="/">
-              <li className="ml-10 uppercase hover:border-b text-sm">Home</li>
-            </Link>
-            <Link href="/profile">
-              <li className="ml-10 uppercase hover:border-b text-sm">
-                Profile
-              </li>
-            </Link>
-            </>
+            {user && (
+              <>
+                <Link href="/">
+                  <li className="ml-10 uppercase hover:border-b text-sm">
+                    Home
+                  </li>
+                </Link>
+                <Link href="/profile">
+                  <li className="ml-10 uppercase hover:border-b text-sm">
+                    Profile
+                  </li>
+                </Link>
+              </>
             )}
             {activeUser && (
               <>
-            <Link href="/new">
-              <li className="ml-10 uppercase hover:border-b text-sm">
-                New Adventure
-              </li>
-            </Link>
-            <Link href="/chat">
-              <li className="ml-10 uppercase hover:border-b text-sm">Chats</li>
-            </Link>
-            </>
+                <Link href="/new">
+                  <li className="ml-10 uppercase hover:border-b text-sm">
+                    New Adventure
+                  </li>
+                </Link>
+                <Link href="/chat">
+                  <li className="ml-10 uppercase hover:border-b text-sm">
+                    Chats
+                  </li>
+                </Link>
+              </>
             )}
             <Link href="/about">
               <li className="ml-10 uppercase hover:border-b text-sm">About</li>
