@@ -2,12 +2,35 @@ import { useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
-import { useRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 import { data } from "../pages/components/mockData";
 
 export default function Match({ users }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
+
+  // console.log(router.query.gender_preference);
+  let userSelection = router.query.gender_preference;
+  if (userSelection) {
+    userSelection = userSelection.replace(/['"]+/g, "");
+  }
+
+  // console.log(users[0]);
+  let userFiltered = [];
+
+  async function userFilter() {
+    userFiltered = await users.filter((user) => user.gender === userSelection);
+    return userFiltered;
+  }
+
+  const selection = userFilter();
+
+  // console.log(selection);
+
+  // if (users) {
+  //   section = users.filter((user) => user.gender === userSelection);
+  //   console.log(section[currentIndex]);
+  // }
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -31,10 +54,7 @@ export default function Match({ users }) {
 
   return (
     <div className="h-[780px] w-full m-auto pt-48 pb-16 px-4 bg-orange-100 group flex flex-col items-center justify-center">
-      <div
-        className="flex w-[750px] h-full rounded-2xl bg-center bg-cover duration-500 shadow-2xl hover:shadow-inner bg-gradient-to-r from-[#FFD482] to-[#EE8162] "
-        // style={{ backgroundImage: `url(${data[0].img})` }}
-      >
+      <div className="flex w-[750px] h-full rounded-2xl bg-center bg-cover duration-500 shadow-2xl hover:shadow-inner bg-gradient-to-r from-[#FFD482] to-[#EE8162] ">
         <div className="basis-1/2 flex justify-end items-center">
           <img
             src={users[currentIndex]["profile_photo"]}

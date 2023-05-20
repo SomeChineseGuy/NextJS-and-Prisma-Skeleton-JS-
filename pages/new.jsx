@@ -1,64 +1,50 @@
 import { PrismaClient } from "@prisma/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useFormik } from "formik";
-import City from "./city";
 import { useState } from "react";
 import { HiLocationMarker } from "react-icons/hi";
 import { useRouter } from "next/router";
+import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
-export default function New({ destinations }) {
-  const router = useRouter();
-  console.log(router);
+export default function New({ users, destinations }) {
   // Auth0
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+  //router
+  const router = useRouter();
+  //state
   const [formValue, setFormValue] = useState({
-    user: user ? user.email : "Mario",
+    user: user ? users["id"] : "Mario", //to be removed?
   });
   // form handlers and states
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValue((prev) => ({ ...prev, [name]: value }));
   };
-  console.log("form value", formValue);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const objValidation = Object.keys(formValue).filter(
       (value) => !formValue[value]
     );
-    console.log(objValidation);
     if (objValidation.length === 0 && Object.keys(formValue).length === 4) {
       await fetch("/api/new", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formValue),
       });
+      router.push({
+        pathname: "/match",
+        query: {
+          gender_preference: JSON.stringify(
+            `${formValue["gender_preference"]}`
+          ),
+        },
+      });
     }
   };
 
   const hotDestinations = destinations.slice(0, 4);
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     user: user ? user.email : "Mario",
-  //     country: "France",
-  //     city: "Paris",
-  //     gender: "Female",
-  //     openToTravel: "true",
-  //   },
-  //   //submit form
-  //   onSubmit: async (values) => {
-  //     console.log(values);
-  //     await fetch("/api/new", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(values),
-  //     });
-  //   },
-  // });
-  // console.log(formik.city);
   return (
     <section className="pt-48 bg-orange-100 w-full h-[800px] flex items-center justify-center">
       <section className="flex items-start pt-5 shadow-2xl bg-gradient-to-r from-slate-200 to-slate-500 rounded-2xl w-[1100px] h-[600px]">
@@ -66,7 +52,7 @@ export default function New({ destinations }) {
           <h2 className="font-extrabold text-3xl">New Adventure</h2>
           <div>
             <form onSubmit={handleSubmit}>
-              <input type="text" className="hidden" value={user} />
+              <input type="text" className="hidden" value={users.id} />
               <div className="mt-6">
                 {/* Country Field */}
                 <div className="pb-4">
@@ -106,7 +92,10 @@ export default function New({ destinations }) {
                           destination.country === formValue["country"]
                       )
                       .map((destination) => (
-                        <option value={destination.id}>
+                        <option
+                          key={destination.id}
+                          value={Number(destination["id"])}
+                        >
                           {destination.city}
                         </option>
                       ))}
@@ -145,6 +134,7 @@ export default function New({ destinations }) {
               <div
                 className="h-[225px] w-[225px] m-4 bg-contain rounded-[25%]"
                 style={{ backgroundImage: `url(${hotDestination["photo"]})` }}
+                key={hotDestination["id"]}
               >
                 <div className="shadow-md shadow-slate-950 h-[30px] w-[100px] rounded-md bg-white">
                   <span className="flex justify-center items-center font-bold">
@@ -160,13 +150,32 @@ export default function New({ destinations }) {
   );
 }
 
-export async function getStaticProps() {
-  const prisma = new PrismaClient();
-  // const users = await prisma.user.findMany();
-  const destinations = await prisma.destination.findMany({
-    distinct: ["country"],
-  });
-  return {
-    props: { destinations },
-  };
-}
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(context) {
+    const session = await getSession(context.req, context.res);
+    const prisma = new PrismaClient();
+    const users = await prisma.user.findUnique({
+      where: {
+        email: session.user.email,
+      },
+    });
+    const destinations = await prisma.destination.findMany({
+      distinct: ["country"],
+    });
+
+    return {
+      props: { users, destinations },
+    };
+  },
+});
+
+// export async function getStaticProps() {
+//   const prisma = new PrismaClient();
+//   const users = await prisma.user.findMany();
+//   const destinations = await prisma.destination.findMany({
+//     distinct: ["country"],
+//   });
+//   return {
+//     props: { destinations },
+//   };
+// }
