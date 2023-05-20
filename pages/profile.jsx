@@ -5,6 +5,7 @@ import { data } from "../pages/components/mockData";
 import Image from "next/image";
 import { PrismaClient } from "@prisma/client";
 import { useState, useEffect} from "react";
+import { useRouter } from "next/router";
 
 export default function Profile(users) {
   const { user, error, isLoading } = useUser();
@@ -36,6 +37,8 @@ export default function Profile(users) {
     return validUser
   })
 
+  const router = useRouter()
+
 
   const saveProfile = async e => {
     e.preventDefault();
@@ -45,6 +48,8 @@ export default function Profile(users) {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(body),
     })
+    router.push('/')
+
   }
 
   return (
