@@ -246,5 +246,5 @@ export const getServerSideProps = withPageAuthRequired({
     return {
       props: { users, match, chat, messages },
     };
-  }
+  },
 });
