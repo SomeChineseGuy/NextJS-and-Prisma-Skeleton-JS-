@@ -6,15 +6,16 @@ import Image from "next/image";
 import Logo from "../../public/Logo.png";
 import Link from "next/link";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-
+import UserContext from "@/context/userInfoContext";
 
 
 //font from google
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Navbar(users) {
+  const myName = useContext(UserContext)
   const userList = users.users.users
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, error, isLoading } = useUser();
@@ -30,12 +31,13 @@ export default function Navbar(users) {
     email = user.email
   }
 
-  userList.forEach(function (item) {
-    if (item.email === email) {
-      activeUser = item
-    }
-    return activeUser
-  })
+  
+  // userList.forEach(function (item) {
+  //   if (item.email === email) {
+  //     activeUser = item
+  //   }
+  //   return activeUser
+  // })
 
   return (
     <nav className="fixed w-full h-24 shadow-xl bg-orange-100">
