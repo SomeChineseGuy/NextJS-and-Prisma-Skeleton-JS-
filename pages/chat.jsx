@@ -237,7 +237,6 @@ export default function Chat(users) {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(context) {
     const session = await getSession(context.req, context.res)
-    console.log(session.user.email)
     const prisma = new PrismaClient()
       const users = await prisma.user.findMany()
       const match = await prisma.match.findMany()
