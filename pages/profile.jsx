@@ -5,9 +5,11 @@ import { data } from "../pages/components/mockData";
 import Image from "next/image";
 import { PrismaClient } from "@prisma/client";
 import { useState } from "react";
+import { useRouter } from 'next/router';
 
 export default function Profile(users) {
   const { user, error, isLoading } = useUser();
+  const router = useRouter();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -45,6 +47,7 @@ export default function Profile(users) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    router.push('/');
   };
 
   return (
