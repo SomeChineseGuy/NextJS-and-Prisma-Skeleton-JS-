@@ -35,7 +35,6 @@ export default function About() {
 export async function getStaticProps() {
   const prisma = new PrismaClient();
   const users = await prisma.user.findMany()
-  console.log(users)
   return {
     props: {users}
   };
