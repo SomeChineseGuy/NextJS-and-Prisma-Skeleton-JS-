@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PrismaClient } from "@prisma/client";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 import { useRouter, withRouter } from "next/router";
 import { data } from "../pages/components/mockData";
-import { PrismaClient } from "@prisma/client";
 
 export default function Match({ users }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selection, setSelection] = useState([]);
   const router = useRouter();
+
+  //dependency array that is checking for the user
 
   // console.log(router.query.gender_preference);
   let userSelection = router.query.gender_preference;
@@ -16,31 +18,29 @@ export default function Match({ users }) {
     userSelection = userSelection.replace(/['"]+/g, "");
   }
 
-  // console.log(users[0]);
-  let userFiltered = [];
+  useEffect(() => {
+    fetchFilteredUser();
+    // setSelection(users.filter((user) => user.gender === userSelection));
+  }, []);
 
-  async function userFilter() {
-    userFiltered = await users.filter((user) => user.gender === userSelection);
-    return userFiltered;
-  }
+  const fetchFilteredUser = async () => {
+    const filteredUser = await users.filter(
+      (user) => user.gender === userSelection
+    );
+    console.log(filteredUser);
+    setSelection(filteredUser);
+  };
 
-  const selection = userFilter();
-
-  // console.log(selection);
-
-  // if (users) {
-  //   section = users.filter((user) => user.gender === userSelection);
-  //   console.log(section[currentIndex]);
-  // }
+  console.log(selection);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? users.length - 1 : currentIndex - 1;
+    const newIndex = isFirstSlide ? selection.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
   };
 
   const nextSlide = () => {
-    const isLastSlide = currentIndex === users.length - 1;
+    const isLastSlide = currentIndex === selection.length - 1;
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
