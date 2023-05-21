@@ -14,9 +14,9 @@ import UserContext from "@/context/userInfoContext";
 //font from google
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Navbar(users) {
-  const myName = useContext(UserContext)
-  const userList = users.users.users
+export default function Navbar() {
+  const userList = useContext(UserContext)
+  const results = Array.isArray(userList)
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, error, isLoading } = useUser();
 
@@ -24,20 +24,24 @@ export default function Navbar(users) {
     setMenuOpen(!menuOpen);
   };
 
-  let activeUser 
+  let activeUser; 
   let email;
 
   if(user) {
     email = user.email
   }
 
-  
-  // userList.forEach(function (item) {
-  //   if (item.email === email) {
-  //     activeUser = item
-  //   }
-  //   return activeUser
-  // })
+  if(results === true){
+  userList.forEach(function (item) {
+    if (item.email === email) {
+      activeUser = item
+    }
+  })
+} else if(results === false){
+  if(userList.email === email){
+    activeUser = userList
+  }
+}
 
   return (
     <nav className="fixed w-full h-24 shadow-xl bg-orange-100">
