@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HiLocationMarker } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
+import axios from "axios";
 
 export default function New({ users, destinations }) {
   // Auth0
@@ -28,17 +29,18 @@ export default function New({ users, destinations }) {
       (value) => !formValue[value]
     );
     if (objValidation.length === 0 && Object.keys(formValue).length === 4) {
-      await fetch("/api/new", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formValue),
-      });
+      const { data } = await axios.post(
+        "http://localhost:3000/api/new",
+        formValue
+      );
       router.push({
         pathname: "/match",
         query: {
           gender_preference: JSON.stringify(
             `${formValue["gender_preference"]}`
           ),
+          adventure_info: JSON.stringify(data),
+          user_1: JSON.stringify(formValue["user"]),
         },
       });
     }
