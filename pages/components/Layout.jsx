@@ -1,10 +1,10 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-const Layout = ({ children, users }) => {
+const Layout = ({ children}) => {
   return (
     <div className="content">
-      <Navbar users={users} />
+      <Navbar />
       {children}
       <Footer />
     </div>
