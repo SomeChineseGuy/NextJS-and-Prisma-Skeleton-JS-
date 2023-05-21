@@ -222,28 +222,14 @@ export default function Chat(users) {
  )
 }
 
-// export async function getServerSideProps(context) {
-//   console.log(context.req)
-//   const prisma = new PrismaClient()
-//   const users = await prisma.user.findMany()
-//   const match = await prisma.match.findMany()
-//   const chat = await prisma.chat.findMany()
-//   const messages = await prisma.message.findMany()
-//   return {
-//     props: { users, match, chat, messages }
-//   }
-// }
-
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(context) {
-    const session = await getSession(context.req, context.res)
-    const prisma = new PrismaClient()
-      const users = await prisma.user.findMany()
-      const match = await prisma.match.findMany()
-      const chat = await prisma.chat.findMany()
-      const messages = await prisma.message.findMany()
-      return {
-        props: { users, match, chat, messages }
-      }
+export async function getServerSideProps(context) {
+  console.log(context.req)
+  const prisma = new PrismaClient()
+  const users = await prisma.user.findMany()
+  const match = await prisma.match.findMany()
+  const chat = await prisma.chat.findMany()
+  const messages = await prisma.message.findMany()
+  return {
+    props: { users, match, chat, messages }
   }
-});
+}
