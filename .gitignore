@@ -3,4 +3,5 @@
 .DS_store
 node_modules
 public/.DS_Store
+prisma/dev.db
 dev.db
