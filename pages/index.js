@@ -12,7 +12,7 @@ import { FaPassport } from "react-icons/fa";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home(users) {
+export default function Home({ users, destinations }) {
   const { user, error, isLoading } = useUser();
 
   return (
@@ -31,7 +31,7 @@ export default function Home(users) {
         <p className="text-xl font-bold text-[#5271ff]">
           Not sure where to go, here you'll find the answer
         </p>
-        <Gallery data={users.destinations} />
+        <Gallery data={destinations} />
       </div>
     </>
   );
@@ -39,9 +39,9 @@ export default function Home(users) {
 
 export async function getStaticProps() {
   const prisma = new PrismaClient();
-  const users = await prisma.user.findMany()
-  const destinations = await prisma.destination.findMany()
+  const users = await prisma.user.findMany();
+  const destinations = await prisma.destination.findMany();
   return {
-    props: {users, destinations}
+    props: { users, destinations },
   };
 }

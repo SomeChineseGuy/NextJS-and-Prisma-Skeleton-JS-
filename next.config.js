@@ -6,6 +6,7 @@ const nextConfig = {
       "images.unsplash.com",
       "lh3.googleusercontent.com",
       "plus.unsplash.com",
+      "fastly.picsum.photos",
     ],
   },
 };
