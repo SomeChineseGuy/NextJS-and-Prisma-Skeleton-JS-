@@ -1,8 +1,7 @@
 import React from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Image from "next/image";
-import { PrismaClient } from '@prisma/client'
-
+import { PrismaClient } from "@prisma/client";
 
 export default function Gallery(props) {
   const slideLeft = () => {
@@ -17,9 +16,7 @@ export default function Gallery(props) {
 
   const data = props.data;
 
-  const handleClick= () => {
-  
-  }
+  const handleClick = () => {};
 
   return (
     <>
@@ -60,6 +57,6 @@ export async function getStaticProps() {
   const prisma = new PrismaClient();
   const destinations = await prisma.destination.findMany();
   return {
-    props: {destinations},
+    props: { destinations },
   };
 }
