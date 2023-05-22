@@ -11,6 +11,8 @@ export default function Profile(users) {
   const { user, error, isLoading } = useUser();
   const router = useRouter();
 
+  console.log(users)
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
@@ -22,6 +24,8 @@ export default function Profile(users) {
   const [aboutMe, setAboutMe] = useState("");
   const photo = user.picture;
   const userList = users.users;
+  const destinationList = users.destinations
+  const adventuresList = users.adventures
   let validUser = {};
 
   userList.forEach(function (item) {
@@ -30,6 +34,24 @@ export default function Profile(users) {
     }
     return validUser;
   });
+
+  let userAdventures = []
+  let userDestinations = []
+
+  adventuresList.forEach(function (item) {
+    if (item.user === validUser.id)
+      userAdventures.push(item)
+  })
+
+  destinationList.forEach(function (item) {
+    userAdventures.forEach(function (items) {
+      if (item.id === items.destination) {
+        userDestinations.push(item)
+      }
+    })
+  })
+
+
 
   const saveProfile = async (e) => {
     e.preventDefault();
@@ -50,6 +72,7 @@ export default function Profile(users) {
     router.push('/');
   };
 
+
   return (
     user && (
       <div className=" pt-48 bg-orange-100">
@@ -68,12 +91,32 @@ export default function Profile(users) {
             />
           </div>
           <div>
+          <h2 className="text-center text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#5271ff] to-[#5271ee]">
+              Profile Information
+            </h2>
+            <p className="text-black-500 text-lg mb-1md:mb-0 pr-4 pt-3.5">
+              EMAIL: {user.email}{" "}
+            </p>
+            <p className="text-black-500 text-lg mb-1 mt-1  md:mb-0 pr-4 pt-3.5">
+              NAME: {validUser.first_name}{" "}
+            </p>
+            <p className="text-black-500 text-lg mb-1 mt-1  md:mb-0 pr-4 pt-3.5">
+              AGE: {validUser.age}{" "}
+            </p>
+            <p className="text-black-500 text-lg mb-1 mt-1  md:mb-0 pr-4 pt-3.5">
+              GENDER: {validUser.gender}{" "}
+            </p>
+            <p className="text-black-500 text-lg mb-1 mt-1  md:mb-0 pr-4 pt-3.5">
+              LOCATION: {validUser.current_location}{" "}
+            </p>
+            <p className="text-black-500 text-lg mb-1 mt-1  md:mb-0 pr-4 pt-3.5">
+              ABOUT ME: {validUser.about_me}{" "}
+            </p>
+          </div>
+          <div>
             <h2 className="text-center text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#5271ff] to-[#5271ee]">
               Update Profile Information
             </h2>
-            <p className="text-gray-500 text-lg block md:text-right mb-1 md:mb-0 pr-4 pt-3.5">
-              EMAIL: {user.email}{" "}
-            </p>
             <form onSubmit={saveProfile}>
               <label className="text-gray-500 uppercase text-lg block md:text-right mb-1 md:mb-0 pr-4 pt-3.5">
                 Name:
@@ -83,8 +126,7 @@ export default function Profile(users) {
                   id="firstName"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  placeholder={validUser.first_name}
-                  className="py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
+                  className=" text-center py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
                 />
               </label>
               <label className="text-gray-500 uppercase text-lg block md:text-right mb-1 md:mb-0 pr-4 pt-3.5">
@@ -95,21 +137,21 @@ export default function Profile(users) {
                   id="age"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  placeholder={validUser.age}
-                  className="py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
+                  className="text-center py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
                 />
               </label>
               <label className="text-gray-500 uppercase text-lg block md:text-right mb-1 md:mb-0 pr-4 pt-3.5">
                 Gender:
-                <input
-                  type="text"
+                <select type="text"
                   name="gender"
                   id="gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  placeholder={validUser.gender}
-                  className="py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
-                />
+                  className="py-2 px-14 leading-tight font-light focus:outline-none rounded-lg text-center">
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                  <option value="Non-Binary">Non-Binary</option>
+                </select>
               </label>
               <label className="text-gray-500 uppercase text-lg block md:text-right mb-1 md:mb-0 pr-4 pt-3.5">
                 Location:
@@ -119,8 +161,7 @@ export default function Profile(users) {
                   id="currentLocation"
                   value={currentLocation}
                   onChange={(e) => setCurrentLocation(e.target.value)}
-                  placeholder={validUser.current_location}
-                  className="py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
+                  className="py-2 px-4 leading-tight font-light focus:outline-none rounded-lg text-center"
                 />
               </label>
               <label className="text-gray-500 uppercase text-lg block md:text-right mb-1 md:mb-0 pr-4 pt-3.5">
@@ -131,8 +172,7 @@ export default function Profile(users) {
                   id="aboutMe"
                   value={aboutMe}
                   onChange={(e) => setAboutMe(e.target.value)}
-                  placeholder={validUser.about_me}
-                  className="py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
+                  className="text-center py-2 px-4 leading-tight font-light focus:outline-none rounded-lg"
                 />
               </label>
               <button
@@ -147,7 +187,7 @@ export default function Profile(users) {
         <h2 className="text-center mx-12 my-12 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#5271ff] to-[#5271ee]">
           Previous Adventures
         </h2>
-        <Gallery data={data} />
+        <Gallery data={userDestinations} />
       </div>
     )
   );
@@ -156,7 +196,9 @@ export default function Profile(users) {
 export async function getStaticProps() {
   const prisma = new PrismaClient();
   const users = await prisma.user.findMany();
+  const destinations = await prisma.destination.findMany();
+  const adventures = await prisma.adventure.findMany();
   return {
-    props: { users },
+    props: { users, destinations, adventures },
   };
 }
