@@ -27,7 +27,7 @@ export default function Match({ users }) {
 
   const fetchFilteredUser = async () => {
     const filteredUser = await users.filter(
-      (user) => user.gender === userSelection
+      (user) => user.gender === userSelection && user.id !== user_1
     );
     setSelection(filteredUser);
   };
@@ -64,14 +64,14 @@ export default function Match({ users }) {
         match: JSON.stringify(data),
       },
     });
-    const matchId = data.id
-    const adventureId = data.id
-    const body = {matchId, adventureId};
-      await fetch("/api/createChat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+    const matchId = data.id;
+    const adventureId = data.id;
+    const body = { matchId, adventureId };
+    await fetch("/api/createChat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
   };
 
   return (
@@ -126,11 +126,11 @@ export default function Match({ users }) {
         <BsChevronCompactRight onClick={nextSlide} size={30} />
       </div>
       <div className="flex top-4 justify-center py-2">
-        {users.map((user, slideIndex) => (
+        {selection.map((item, slideIndex) => (
           <div
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
-            className="text-2xl cursor-pointer"
+            className={"text-2xl cursor-pointer"}
           >
             <RxDotFilled />
           </div>
