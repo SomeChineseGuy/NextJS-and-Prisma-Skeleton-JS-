@@ -14,16 +14,6 @@ export default function Chat(users) {
   const { user } = useUser();
   const [conversation, setConversation] = useState();
   const [activeChat, setActiveChat] = useState();
-  const router = useRouter();
-  const matchInfo = router.query.match;
-
-  // let matchId;
-  // let adventureId;
-  // if(matchInfo){
-  //   const chatInfo = JSON.parse(matchInfo)
-  //   matchId = chatInfo.id
-  //   adventureId = chatInfo.adventure
-  //   }
 
   useEffect(() => {
     socketInitializer();
@@ -58,6 +48,13 @@ export default function Chat(users) {
   let matchedMessages = [];
   let openChat = [];
 
+    //On click set the active conversation
+    const handleClick = async (e) => {
+      setConversation(e.target.innerText);
+      setRoom(e.target.innerText);
+      socket.emit("join_room", room);
+    };
+
   //Find Active Logged-In User
   usersList.forEach(function (item) {
     if (item.email === activeEmail) {
@@ -65,6 +62,8 @@ export default function Chat(users) {
     }
     return validUser;
   });
+
+ 
 
   //Find Matches for Active Logged-In User
   matchList.forEach(function (item) {
@@ -77,8 +76,10 @@ export default function Chat(users) {
   //Return User Information for the Matches
   usersList.forEach(function (item) {
     matchHistory.forEach(function (items) {
-      if (item.id === items.user_2) {
+      if (item.id === items.user_2 || item.id === items.user_1) {
+        if(item.email !== validUser.email){
         matchedUsers.push(item);
+      }
       }
     });
     return matchedUsers;
@@ -104,6 +105,8 @@ export default function Chat(users) {
     return matchedMessages;
   });
 
+  console.log(conversation)
+
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
     if (item.first_name === conversation) {
@@ -112,9 +115,6 @@ export default function Chat(users) {
     return openChat;
   });
 
-  console.log(openChat)
-  console.log(conversation)
-  console.log(matchedUsers)
 
   let chatHistory = [];
   let chatInformation = [];
@@ -148,12 +148,6 @@ export default function Chat(users) {
     return chatMessages;
   });
 
-  //On click set the active conversation
-  const handleClick = async (e) => {
-    setConversation(e.target.innerText);
-    setRoom(e.target.innerText);
-    socket.emit("join_room", room);
-  };
 
   const sendMessage = async () => {
     setActiveChat(chatInformation[0].id);
