@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
 export default async function handler(req, res) {
-  const {firstName, email, age, gender, currentLocation, aboutMe, photo} = req.body
-  console.log(firstName, email, age, gender, currentLocation, aboutMe, photo)
-  const prisma = new PrismaClient()
+  const { firstName, email, age, gender, currentLocation, aboutMe, photo } =
+    req.body;
+  const prisma = new PrismaClient();
   const user = await prisma.user.upsert({
     where: {
       email: email,
@@ -23,11 +23,8 @@ export default async function handler(req, res) {
       gender: gender,
       current_location: currentLocation,
       about_me: aboutMe,
-      profile_photo: photo
+      profile_photo: photo,
     },
-  })  
+  });
   res.send(JSON.stringify(user));
 }
-
-
-  

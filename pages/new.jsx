@@ -144,7 +144,7 @@ export default function New({ users, destinations }) {
           <div className="flex flex-wrap justify-center ">
             {hotDestinations.map((hotDestination) => (
               <div
-                className="h-[225px] w-[225px] m-4 bg-contain rounded-[25%]"
+                className="h-[225px] w-[225px] m-4 rounded-[25%] bg-cover bg-no-repeat"
                 style={{ backgroundImage: `url(${hotDestination["photo"]})` }}
                 key={hotDestination["id"]}
               >
@@ -171,15 +171,11 @@ export const getServerSideProps = withPageAuthRequired({
         email: session.user.email,
       },
     });
-    // const destinations = await prisma.destination.findMany({
-    //   distinct: ["country"],
-    // });
     const destinations = await prisma.destination.findMany({
       orderBy: {
         country: "asc",
       },
     });
-    console.log(destinations);
 
     return {
       props: { users, destinations },

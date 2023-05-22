@@ -49,18 +49,6 @@ export default function Gallery(props) {
               </div>
             </div>
           ))}
-          {/* {data.map((item) => (
-            <Image
-              className="w-[300px] h-[300px] inline-block p-8 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-[35%] border-solid border-2 border-green-800"
-              width="300"
-              height="300"
-              src={item.photo}
-              alt="/"
-              key={item.id}
-              priority
-              onClick={handleClick}
-            />
-          ))} */}
         </div>
         <MdChevronRight
           className="opacity-50 cursor-pointer hover:opacity-100"

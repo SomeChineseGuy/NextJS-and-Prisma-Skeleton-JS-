@@ -522,7 +522,8 @@ async function main() {
     create: {
       city: "Las Vegas",
       country: "United States",
-      photo: "",
+      photo:
+        "https://plus.unsplash.com/premium_photo-1676393904171-738ff11eceaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80",
       description:
         "With the bright lights, party atmosphere and endless things to see and do, it’s no wonder that Las Vegas has become a glittering global tourism destination. Take a chance in the casinos until the early hours or see world-class entertainment.",
     },
