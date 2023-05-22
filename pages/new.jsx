@@ -117,6 +117,7 @@ export default function New({ users, destinations }) {
                     <option>Female</option>
                     <option>Male</option>
                     <option>Non Binary</option>
+                    <option value="no_preference">No Preference</option>
                   </select>
                 </div>
                 <button

@@ -15,7 +15,6 @@ export default function Match({ users }) {
   let user_1 = router.query.user_1;
 
   if (userSelection) {
-    // userSelection = userSelection.replace(/['"]+/g, "");
     userSelection = JSON.parse(userSelection);
     user_1 = JSON.parse(user_1);
     adventure_info = JSON.parse(adventure_info);
@@ -25,10 +24,16 @@ export default function Match({ users }) {
     fetchFilteredUser();
   }, [users]);
 
+  //filtering user based on gender selection
   const fetchFilteredUser = async () => {
-    const filteredUser = await users.filter(
-      (user) => user.gender === userSelection && user.id !== user_1
-    );
+    let filteredUser = [];
+    if (userSelection === "no_preference") {
+      filteredUser = await users.filter((user) => user.id !== user_1);
+    } else {
+      filteredUser = await users.filter(
+        (user) => user.gender === userSelection && user.id !== user_1
+      );
+    }
     setSelection(filteredUser);
   };
 
