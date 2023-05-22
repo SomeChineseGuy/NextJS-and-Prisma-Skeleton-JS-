@@ -68,7 +68,7 @@ export default function Chat(users) {
 
   //Find Matches for Active Logged-In User
   matchList.forEach(function (item) {
-    if (item.user_1 === validUser.id) {
+    if (item.user_1 === validUser.id || item.user_2 === validUser.id) {
       matchHistory.push(item);
     }
     return matchHistory;
@@ -112,13 +112,17 @@ export default function Chat(users) {
     return openChat;
   });
 
+  console.log(openChat)
+  console.log(conversation)
+  console.log(matchedUsers)
+
   let chatHistory = [];
   let chatInformation = [];
   let chatMessages = [];
 
   //Based on the user selected find their chat history
   matchList.forEach(function (item) {
-    if (item.user_2 === openChat.id) {
+    if (item.user_2 === openChat.id || item.user_1 === openChat.id) {
       chatHistory.push(item);
     }
     return chatHistory;
@@ -205,6 +209,10 @@ export default function Chat(users) {
         </div>
         <div className="flex-grow h-screen ">
           <div className="border border-orange-300 ">
+          {conversation === undefined ? (
+              <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center text-md uppercase">Select a Match from Chat History to Open a Chat</div>
+            ) : 
+            ( <div>
             <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center">
               <h3 className="text-lg">{openChat.first_name}</h3>
               <img
@@ -262,6 +270,7 @@ export default function Chat(users) {
                 &#9658; Send
               </button>
             </div>
+            </div>)}
           </div>
         </div>
       </div>
