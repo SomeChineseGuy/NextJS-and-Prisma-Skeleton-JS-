@@ -147,7 +147,8 @@ export default function Profile(users) {
                   id="gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  className="py-2 px-14 leading-tight font-light focus:outline-none rounded-lg text-center">
+                  className="py-2 px-2 leading-tight font-light focus:outline-none rounded-lg text-center">
+                  <option value="" selected disabled hidden>Choose an option below</option>
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
                   <option value="Non-Binary">Non-Binary</option>
