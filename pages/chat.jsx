@@ -15,10 +15,15 @@ export default function Chat(users) {
   const [conversation, setConversation] = useState();
   const [activeChat, setActiveChat] = useState();
   const router = useRouter();
-  //Information about match after record was created
   const matchInfo = router.query.match;
 
-  console.log(matchInfo);
+  // let matchId;
+  // let adventureId;
+  // if(matchInfo){
+  //   const chatInfo = JSON.parse(matchInfo)
+  //   matchId = chatInfo.id
+  //   adventureId = chatInfo.adventure
+  //   }
 
   useEffect(() => {
     socketInitializer();
@@ -99,13 +104,6 @@ export default function Chat(users) {
     return matchedMessages;
   });
 
-  //On click set the active conversation
-  const handleClick = (e) => {
-    setConversation(e.target.innerText);
-    setRoom(e.target.innerText);
-    socket.emit("join_room", room);
-  };
-
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
     if (item.first_name === conversation) {
@@ -145,6 +143,13 @@ export default function Chat(users) {
     });
     return chatMessages;
   });
+
+  //On click set the active conversation
+  const handleClick = async (e) => {
+    setConversation(e.target.innerText);
+    setRoom(e.target.innerText);
+    socket.emit("join_room", room);
+  };
 
   const sendMessage = async () => {
     setActiveChat(chatInformation[0].id);
