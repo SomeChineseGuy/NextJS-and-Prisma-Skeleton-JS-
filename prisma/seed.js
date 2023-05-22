@@ -242,7 +242,7 @@ async function main() {
   });
   const newyork = await prisma.destination.upsert({
     where: { id: 3 },
-    update: {},
+    update: { country: "United States" },
     create: {
       city: "New York",
       country: "United States",

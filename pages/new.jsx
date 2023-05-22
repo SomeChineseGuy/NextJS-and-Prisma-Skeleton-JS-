@@ -144,9 +144,10 @@ export default function New({ users, destinations }) {
           <div className="flex flex-wrap justify-center ">
             {hotDestinations.map((hotDestination) => (
               <div
-                className="h-[225px] w-[225px] m-4 rounded-[25%] bg-cover bg-no-repeat"
+                className="h-[225px] w-[225px] m-4 rounded-[25%] bg-cover bg-no-repeat cursor-pointer"
                 style={{ backgroundImage: `url(${hotDestination["photo"]})` }}
                 key={hotDestination["id"]}
+                onClick={() => router.push(`/city/${hotDestination["id"]}`)}
               >
                 <div className="shadow-md shadow-slate-950 h-[30px] w-[130px] rounded-md bg-white">
                   <span className="flex justify-center items-center font-bold">
