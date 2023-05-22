@@ -72,8 +72,119 @@ async function main() {
       profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
     },
   })
-  
+    const bailey = await prisma.user.upsert({
+      where: { email: 'bailey.kunz9@yahoo.com' },
+      update: {},
+      create: {
+        email: 'bailey.kunz9@yahoo.com',
+        first_name: 'Bailey',
+        age: "52",
+        gender: "Female",
+        about_me: "I love to travel",
+        current_location: "Illinois",
+        open_to_travel: true,
+        profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+      },
+  })
+  const teresa = await prisma.user.upsert({
+    where: { email: 'lamar1989@yahoo.com' },
+    update: {},
+    create: {
+      email: 'lamar1989@yahoo.com',
+      first_name: 'Teresa',
+      age: "47",
+      gender: "Female",
+      about_me: "I love to travel",
+      current_location: "Florida",
+      open_to_travel: true,
+      profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+    },
+})
+const nanette = await prisma.user.upsert({
+  where: { email: 'pink1995@hotmail.com' },
+  update: {},
+  create: {
+    email: 'pink1995@hotmail.com',
+    first_name: 'Teresa',
+    age: "68",
+    gender: "Female",
+    about_me: "I love to travel",
+    current_location: "New York",
+    open_to_travel: true,
+    profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+  },
+})
 
+const jim = await prisma.user.upsert({
+  where: { email: 'pwisozk@hotmail.com' },
+  update: {},
+  create: {
+    email: 'pwisozk@hotmail.com',
+    first_name: 'Jim',
+    age: "40",
+    gender: "Male",
+    about_me: "I love to travel",
+    current_location: "Bredenbury",
+    open_to_travel: true,
+    profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+  },
+})
+const monty = await prisma.user.upsert({
+  where: { email: 'jamie52@hotmail.com' },
+  update: {},
+  create: {
+    email: 'jamie52@hotmail.com',
+    first_name: 'Jim',
+    age: "26",
+    gender: "Male",
+    about_me: "I love to travel",
+    current_location: "Brandon",
+    open_to_travel: true,
+    profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+  },
+})
+const noel = await prisma.user.upsert({
+  where: { email: 'okon.erwin@hotmail.com' },
+  update: {},
+  create: {
+    email: 'okon.erwin@hotmail.com',
+    first_name: 'Noel',
+    age: "31",
+    gender: "Male",
+    about_me: "I love to travel",
+    current_location: "Montreal",
+    open_to_travel: true,
+    profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+  },
+})
+const graham = await prisma.user.upsert({
+  where: { email: 'geovany27@hotmail.com' },
+  update: {},
+  create: {
+    email: 'geovany27@hotmail.com',
+    first_name: 'Graham',
+    age: "32",
+    gender: "Male",
+    about_me: "I love to travel",
+    current_location: "Quebec City",
+    open_to_travel: true,
+    profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+  },
+})
+const mark = await prisma.user.upsert({
+  where: { email: 'ernesto.johns@kihn.com' },
+  update: {},
+  create: {
+    email: 'ernesto.johns@kihn.com',
+    first_name: 'Mark',
+    age: "21",
+    gender: "Male",
+    about_me: "I love to travel",
+    current_location: "Edmonton",
+    open_to_travel: true,
+    profile_photo: "https://robohash.org/necessitatibusaliaseaque.png?size=50x50&set=set1"
+  },
+})
   const paris = await prisma.destination.upsert({
     where: { id: 2 },
     update: {},
@@ -89,7 +200,7 @@ async function main() {
     update: {},
     create: {
       city: 'New York',
-      country: 'United State',
+      country: 'United States',
       photo: "https://i.natgeofe.com/k/5b396b5e-59e7-43a6-9448-708125549aa1/new-york-statue-of-liberty_2x1.jpg",
       description: "There are so many elements that make New York City one of the best cities in the world. The city and the Statue of Liberty that travelers see as they arrive is symbolic of the culture and freedom that America stands for. The Big Apple is the financial hub of the United States, with Wall Street and international businesses.",
     },
@@ -144,29 +255,215 @@ async function main() {
       description: "Rome is one of those destinations that sits on many travelers' must-see someday lists. The culture of Rome and its historic architecture are its main draws. The Colosseum, Pantheon, Trevi fountain, and the Vatican usually top the list of things vacationers want to check off their list.",
     },
   })
-  const brooke = await prisma.user.upsert({
-    where: { email: 'brooke.nagy987@gmail.com' },
+  const kerry = await prisma.destination.upsert({
+    where: { id: 9 },
     update: {},
     create: {
-      email: 'brooke.nagy987@gmail.com',
-      first_name: 'Brooke',
-      age: 30,
-      gender: "Female",
-      about_me: "I love to travel",
-      current_location: "Calgary",
-      open_to_travel: true,
-      profile_photo: "",
-      Adventure: {
-        create: [
-          {
-            gender_preference: "Any",
-            destination_id: {
-              connect: {id: 2}
-            }
-          }
-        ]
-      },
+      city: 'Kerry',
+      country: 'Ireland',
+      photo: "",
+      description: "All the way west in Ireland is one of the country’s most scenic counties. Kerry’s mountains, lakes and coasts are postcard-perfect, and that’s before you add in Killarney National Park. The unique small towns such as Dingle add to its charm.",
     },
+  })
+  const cape = await prisma.destination.upsert({
+    where: { id: 10 },
+    update: {},
+    create: {
+      city: 'Cape Town',
+      country: 'South Africa',
+      photo: "",
+      description: "Cape Town is a dream location to visit: endless natural beauty and clifftop views, pastel pink neighborhoods and turquoise waters.",
+    },
+  })
+  const dubrovnik = await prisma.destination.upsert({
+    where: { id: 11 },
+    update: {},
+    create: {
+      city: 'Dubrovnik',
+      country: 'Croatia',
+      photo: "",
+      description: "As George Bernard Shaw once said, 'Those who seek paradise on Earth should come to Dubrovnik.' With its winding streets, cliffside beach bars and UNESCO World Heritage Site of the Old Town, it’s no wonder Dubrovnik is such a popular spot.",
+    }, 
+  })
+  const edinburgh = await prisma.destination.upsert({
+    where: { id: 12 },
+    update: {},
+    create: {
+      city: 'Edinburgh',
+      country: 'Scotland',
+      photo: "",
+      description: "With the historic Edinburgh castle looming over the city, culture in spades and wonderfully friendly locals, this is one of the world’s greatest city breaks.",
+    }, 
+  })
+  const jaipur = await prisma.destination.upsert({
+    where: { id: 13 },
+    update: {},
+    create: {
+      city: 'Jaipur',
+      country: 'India',
+      photo: "",
+      description: "Jaipur is known as the ‘Pink City’ for its pale terracotta buildings. This was originally done to impress the visiting Prince Albert during his 1876 tour of India by order of the Maharaja (Sawai Ram Singh). Even today, it’s illegal to paint buildings any other color.",
+    }, 
+  })
+  const waikato = await prisma.destination.upsert({
+    where: { id: 15 },
+    update: {},
+    create: {
+      city: 'Waikato',
+      country: 'New Zealand',
+      photo: "",
+      description: "Waikato, a region in New Zealand’s North Island, is home to massive underground caves, lush rainforest and the buzzy city of Hamilton. But the area’s main attraction? A Middle-earth adventure on the film set of Lord of the Rings. Hobbiton Movie Set still has the original Hobbit holes from the making of the films.",
+    }, 
+  })
+  const havana = await prisma.destination.upsert({
+    where: { id: 16 },
+    update: {},
+    create: {
+      city: 'Havana',
+      country: 'Cuba',
+      photo: "",
+      description: "Cuba’s capital is almost 500 years old and a riot of color. Brightly painted buildings and vintage cars make Havana a photogenic dream.",
+    }, 
+  })
+  const tokyo = await prisma.destination.upsert({
+    where: { id: 17 },
+    update: {},
+    create: {
+      city: 'Tokyo',
+      country: 'Japan',
+      photo: "",
+      description: "Visiting Tokyo is like visiting the future—flashing neon lights, incredible technology—yet there’s still a rich sense of culture and history.",
+    }, 
+  })
+  const vancouver = await prisma.destination.upsert({
+    where: { id: 18 },
+    update: {},
+    create: {
+      city: 'Vancouver',
+      country: 'Canada',
+      photo: "",
+      description: "Vancouver is surrounded by water yet close to the mountains and has world-class art, restaurants and heaps of other attractions to keep you entertained.",
+    }, 
+  })
+  const cairo = await prisma.destination.upsert({
+    where: { id: 19 },
+    update: {},
+    create: {
+      city: 'Cairo',
+      country: 'Egypt',
+      photo: "",
+      description: "Cairo is one of the most ancient cities in the world. Sitting on the Nile river with wonderful museums, vibrant culture and friendly locals, it makes for a great holiday.",
+    }, 
+  })
+  const copenhagen = await prisma.destination.upsert({
+    where: { id: 20 },
+    update: {},
+    create: {
+      city: 'Copenhagen',
+      country: 'Denmark',
+      photo: "",
+      description: "Copenhagen’s rustic fishing ports, modern graffiti and winding red brick streets are just some of what makes it such a beautiful bucket list destination. It oozes Scandi cool from every corner, with top-notch food, stylish design and an always hip atmosphere.",
+    }, 
+  })
+  const seoul = await prisma.destination.upsert({
+    where: { id: 21 },
+    update: {},
+    create: {
+      city: 'Seoul',
+      country: 'Korea',
+      photo: "",
+      description: "Seoul is a vibrant metropolis where old-meets-new, with pop culture (K-Pop!) alongside Buddhist temples.",
+    }, 
+  })
+  const providencia = await prisma.destination.upsert({
+    where: { id: 22 },
+    update: {},
+    create: {
+      city: 'Providencia',
+      country: 'Colombia',
+      photo: "",
+      description: "The Colombian island of Providencia is the perfect combination of South America and the Caribbean. It’s best known for Crab Cay: an unspoiled little island where all there is to do is snorkel and lie on the beach.",
+    }, 
+  })
+  const lisbon = await prisma.destination.upsert({
+    where: { id: 23 },
+    update: {},
+    create: {
+      city: 'Lisbon',
+      country: 'Portugal',
+      photo: "",
+      description: "Lisbon, the hilly capital of Portugal, is postcard-perfect with its cobbled streets, pristine waters and local Atlantic beaches.",
+    }, 
+  })
+  const ibiza = await prisma.destination.upsert({
+    where: { id: 24 },
+    update: {},
+    create: {
+      city: 'Ibiza',
+      country: 'Spain',
+      photo: "",
+      description: "While you’ll have your fair share of techno club experiences, Ibiza is also one of the most beautiful Spanish islands, with a pretty Old Town and scenic beaches. Spend the day on the beach and the nights in legendary clubs.",
+    }, 
+  })
+  const budapest = await prisma.destination.upsert({
+    where: { id: 25 },
+    update: {},
+    create: {
+      city: 'Budapest',
+      country: 'Hungary',
+      photo: "",
+      description: "The capital city of Hungary, Budapest is a fairytale city in Eastern Europe. The city itself is separated by the 19th-century Chain Bridge that connects the hilly Buda district with flat Pest—hence the name Budapest.",
+    }, 
+  })
+  const matterhorn = await prisma.destination.upsert({
+    where: { id: 26 },
+    update: {},
+    create: {
+      city: 'Matterhorn',
+      country: 'Switzerland',
+      photo: "",
+      description: "The Matterhorn is one of the world’s most iconic peaks—the pyramid-shaped mountain, which is very difficult to climb, is said to be the most-photographed mountain in the world.",
+    }, 
+  })
+  const vegas = await prisma.destination.upsert({
+    where: { id: 27 },
+    update: {},
+    create: {
+      city: 'Las Vegas',
+      country: 'United States',
+      photo: "",
+      description: "With the bright lights, party atmosphere and endless things to see and do, it’s no wonder that Las Vegas has become a glittering global tourism destination. Take a chance in the casinos until the early hours or see world-class entertainment.",
+    }, 
+  })
+  const buenos = await prisma.destination.upsert({
+    where: { id: 28 },
+    update: {},
+    create: {
+      city: 'Buenos Aires',
+      country: 'Argentina',
+      photo: "",
+      description: "Bookstores set in palatial theatres, tango dancing in the streets and brightly painted neighborhoods. These are just some of what makes Buenos Aires so beautiful.",
+    }, 
+  })
+  const losangeles = await prisma.destination.upsert({
+    where: { id: 29 },
+    update: {},
+    create: {
+      city: 'Los Angeles',
+      country: 'United States',
+      photo: "",
+      description: "In a city with year-round sunshine, glam bars, beaches and hikes, there are endless incredible experiences to enjoy in Los Angeles. It’s no wonder there are almost 5O million ‘LA’ hashtags on Insta.",
+    }, 
+  })
+  const neworleans = await prisma.destination.upsert({
+    where: { id: 30 },
+    update: {},
+    create: {
+      city: 'New Orleans',
+      country: 'United States',
+      photo: "",
+      description: "The lively city known for its street music, festive vibe and a melting pot of French, African and American cultures is well worth the trip. NOLA is a city packed with adventures at every turn and should be on everyone’s must-visit list.",
+    }, 
   })
 }
 main()
