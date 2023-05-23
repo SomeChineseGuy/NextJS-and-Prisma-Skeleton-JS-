@@ -2,8 +2,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
+import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0"
 
 let socket;
 
@@ -19,15 +18,15 @@ export default function Chat(users) {
     socketInitializer();
   }, []);
 
-  const socketInitializer = async () => {
+  
+  const socketInitializer = async () => { 
     await fetch("/api/socket");
     socket = io();
-    socket.on("receive", (data) => {
+    socket.off("receive").on("receive", data => {
+      console.log(data)
       setMessageList((list) => [...list, data]);
     });
-    return () => {
-      socket.disconnect();
-    };
+    return () => socket.disconnect();
   };
 
   let activeEmail = "";
@@ -48,12 +47,8 @@ export default function Chat(users) {
   let matchedMessages = [];
   let openChat = [];
 
-    //On click set the active conversation
-    const handleClick = async (e) => {
-      setConversation(e.target.innerText);
-      setRoom(e.target.innerText);
-      socket.emit("join_room", room);
-    };
+
+
 
   //Find Active Logged-In User
   usersList.forEach(function (item) {
@@ -63,8 +58,7 @@ export default function Chat(users) {
     return validUser;
   });
 
- 
-
+  
   //Find Matches for Active Logged-In User
   matchList.forEach(function (item) {
     if (item.user_1 === validUser.id || item.user_2 === validUser.id) {
@@ -98,14 +92,13 @@ export default function Chat(users) {
   //Return Message History for Chat Matches
   messagesList.forEach(function (item) {
     matchedChats.forEach(function (items) {
-      if (item.id === items.id) {
+      if (item.chat === items.id) {
         matchedMessages.push(item);
       }
     });
     return matchedMessages;
   });
 
-  console.log(conversation)
 
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
@@ -115,13 +108,12 @@ export default function Chat(users) {
     return openChat;
   });
 
-
   let chatHistory = [];
   let chatInformation = [];
   let chatMessages = [];
 
   //Based on the user selected find their chat history
-  matchList.forEach(function (item) {
+  matchHistory.forEach(function (item) {
     if (item.user_2 === openChat.id || item.user_1 === openChat.id) {
       chatHistory.push(item);
     }
@@ -137,7 +129,7 @@ export default function Chat(users) {
     });
     return chatInformation;
   });
-
+  
   //Based on the chat information find the messages for the chat.
   messagesList.forEach(function (item) {
     chatInformation.forEach(function (items) {
@@ -148,14 +140,15 @@ export default function Chat(users) {
     return chatMessages;
   });
 
-
   const sendMessage = async () => {
-    setActiveChat(chatInformation[0].id);
+    setRoom(room || chatInformation[0].id);
+    socket.emit("join_room", room);
+    setActiveChat( activeChat || chatInformation[0].id);
     if (currentMessage !== "") {
       const messageData = {
-        room: room,
+        room: room || chatInformation[0].id ,
         activeChat: activeChat || chatInformation[0].id,
-        sender: false,
+        sender: activeEmail,
         message: currentMessage,
       };
       socket.emit("send", messageData);
@@ -169,9 +162,14 @@ export default function Chat(users) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      setCurrentMessage("");
     }
-    setCurrentMessage("");
   };
+
+  const handleClick = async (e) => {
+    setConversation(e.target.innerText);
+  };
+
 
   return (
     <div className="pt-40 bg-orange-100">
@@ -221,7 +219,7 @@ export default function Chat(users) {
                 return (
                   <div
                     className={
-                      previousMessages.sender === false
+                      previousMessages.sender === activeEmail
                         ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                         : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                     }
@@ -231,10 +229,10 @@ export default function Chat(users) {
                 );
               })}
               {messageList.map((messageContent) =>
-                openChat.first_name === messageContent.room ? (
+                // openChat.first_name === messageContent.room ? (
                   <div
                     className={
-                      messageContent.sender === false
+                      messageContent.sender === activeEmail
                         ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                         : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                     }
@@ -243,9 +241,9 @@ export default function Chat(users) {
                       <p>{messageContent.message}</p>
                     </div>
                   </div>
-                ) : (
-                  <div></div>
-                )
+                // ) : (
+                //   <div></div>
+                // )
               )}
             </div>
             <div className="bg-orange-300 flex">
