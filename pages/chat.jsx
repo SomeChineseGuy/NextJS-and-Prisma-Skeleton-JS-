@@ -14,6 +14,7 @@ export default function Chat(users) {
   const [conversation, setConversation] = useState();
   const [activeChat, setActiveChat] = useState();
 
+
   useEffect(() => {
     socketInitializer();
   }, []);
@@ -23,10 +24,9 @@ export default function Chat(users) {
     await fetch("/api/socket");
     socket = io();
     socket.off("receive").on("receive", data => {
-      console.log(data)
       setMessageList((list) => [...list, data]);
     });
-    return () => socket.disconnect();
+    return () => socket.disconnect()
   };
 
   let activeEmail = "";
@@ -99,14 +99,21 @@ export default function Chat(users) {
     return matchedMessages;
   });
 
+  const handleClick = async (e) => {
+    setConversation(e.target.innerText);
+  };
 
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
-    if (item.first_name === conversation) {
+    if (item.first_name.trim() === conversation) {
       openChat = item;
     }
     return openChat;
   });
+
+  console.log(conversation)
+  console.log(matchedUsers)
+  console.log(openChat)
 
   let chatHistory = [];
   let chatInformation = [];
@@ -165,11 +172,6 @@ export default function Chat(users) {
       setCurrentMessage("");
     }
   };
-
-  const handleClick = async (e) => {
-    setConversation(e.target.innerText);
-  };
-
 
   return (
     <div className="pt-40 bg-orange-100">
