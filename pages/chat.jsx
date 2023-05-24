@@ -14,8 +14,6 @@ export default function Chat(users) {
   const [conversation, setConversation] = useState();
   const [activeChat, setActiveChat] = useState();
 
-  console.log("This is the message list", messageList)
-
   useEffect( () => {
     socketInitializer();
   }, []);
@@ -61,7 +59,11 @@ export default function Chat(users) {
   let matchedMessages = [];
   let openChat = [];
 
-
+  const handleClick = async (e) => {
+    setConversation(e.target.innerText);
+    setRoom(room || chatInformation[0].id);
+    socket.emit("join_room", room);
+  };
 
 
   //Find Active Logged-In User
@@ -113,10 +115,6 @@ export default function Chat(users) {
     return matchedMessages;
   });
 
-  const handleClick = async (e) => {
-    setConversation(e.target.innerText);
-  };
-
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
     if (item.first_name.trim() === conversation) {
@@ -158,8 +156,6 @@ export default function Chat(users) {
   });
 
   const sendMessage = async () => {
-    // setRoom(room || chatInformation[0].id);
-    // socket.emit("join_room", room);
     setActiveChat( activeChat || chatInformation[0].id);
     if (currentMessage !== "") {
       const messageData = {
