@@ -61,7 +61,7 @@ export default function Chat(users) {
 
   const handleClick = async (e) => {
     setConversation(e.target.innerText);
-    setRoom(room || chatInformation[0].id);
+    setRoom(e.target.innerText);
     socket.emit("join_room", room);
   };
 
@@ -74,7 +74,6 @@ export default function Chat(users) {
     return validUser;
   });
 
-  
   //Find Matches for Active Logged-In User
   matchList.forEach(function (item) {
     if (item.user_1 === validUser.id || item.user_2 === validUser.id) {
@@ -114,6 +113,8 @@ export default function Chat(users) {
     });
     return matchedMessages;
   });
+
+  console.log(conversation);
 
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
@@ -237,7 +238,7 @@ export default function Chat(users) {
                 );
               })}
               {messageList.map((messageContent) =>
-                // openChat.first_name === messageContent.room ? (
+                openChat.first_name === messageContent.room ? (
                   <div
                     className={
                       messageContent.sender === activeEmail
@@ -249,9 +250,9 @@ export default function Chat(users) {
                       <p>{messageContent.message}</p>
                     </div>
                   </div>
-                // ) : (
-                //   <div></div>
-                // )
+                ) : (
+                  <div></div>
+                )
               )}
             </div>
             <div className="bg-orange-300 flex">
