@@ -18,9 +18,15 @@ export default function SocketHandler(req, res) {
       socket.broadcast.emit("receive", data)
     })
 
-    socket.on("join_room", data => {
-      console.log(`User with ID: ${socket.id} joined room: ${data}`)
-    })
+    // socket.on("join_room", data => {
+    //   console.log(`User with ID: ${socket.id} joined room: ${data}`)
+    // })
+
+    socket.on('disconnect', function () {
+      socket.removeAllListeners('send');
+      socket.removeAllListeners('receive');
+      socket.removeAllListeners('disconnect');
+  });
 
   })
   res.end()
