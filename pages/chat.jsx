@@ -48,12 +48,12 @@ export default function Chat(users) {
   let matchedMessages = [];
   let openChat = [];
 
-    //On click set the active conversation
-    const handleClick = async (e) => {
-      setConversation(e.target.innerText);
-      setRoom(e.target.innerText);
-      socket.emit("join_room", room);
-    };
+  //On click set the active conversation
+  const handleClick = async (e) => {
+    setConversation(e.target.innerText);
+    setRoom(e.target.innerText);
+    socket.emit("join_room", room);
+  };
 
   //Find Active Logged-In User
   usersList.forEach(function (item) {
@@ -62,8 +62,6 @@ export default function Chat(users) {
     }
     return validUser;
   });
-
- 
 
   //Find Matches for Active Logged-In User
   matchList.forEach(function (item) {
@@ -77,9 +75,9 @@ export default function Chat(users) {
   usersList.forEach(function (item) {
     matchHistory.forEach(function (items) {
       if (item.id === items.user_2 || item.id === items.user_1) {
-        if(item.email !== validUser.email){
-        matchedUsers.push(item);
-      }
+        if (item.email !== validUser.email) {
+          matchedUsers.push(item);
+        }
       }
     });
     return matchedUsers;
@@ -105,7 +103,7 @@ export default function Chat(users) {
     return matchedMessages;
   });
 
-  console.log(conversation)
+  console.log(conversation);
 
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
@@ -114,7 +112,6 @@ export default function Chat(users) {
     }
     return openChat;
   });
-
 
   let chatHistory = [];
   let chatInformation = [];
@@ -147,7 +144,6 @@ export default function Chat(users) {
     });
     return chatMessages;
   });
-
 
   const sendMessage = async () => {
     setActiveChat(chatInformation[0].id);
@@ -203,68 +199,71 @@ export default function Chat(users) {
         </div>
         <div className="flex-grow h-screen ">
           <div className="border border-orange-300 ">
-          {conversation === undefined ? (
-              <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center text-md uppercase">Select a Match from Chat History to Open a Chat</div>
-            ) : 
-            ( <div>
-            <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center">
-              <h3 className="text-lg">{openChat.first_name}</h3>
-              <img
-                className="ml-10 rounded-full"
-                priority
-                src={openChat.profile_photo}
-                width="50"
-              />
-            </div>
-            <div className=" message-area mt-4 px-4 h-96 bg-white overflow-y-auto">
-              {chatMessages.map((previousMessages) => {
-                return (
-                  <div
-                    className={
-                      previousMessages.sender === false
-                        ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
-                        : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
-                    }
-                  >
-                    {previousMessages.message_content}
-                  </div>
-                );
-              })}
-              {messageList.map((messageContent) =>
-                openChat.first_name === messageContent.room ? (
-                  <div
-                    className={
-                      messageContent.sender === false
-                        ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
-                        : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
-                    }
-                  >
-                    <div className="">
-                      <p>{messageContent.message}</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div></div>
-                )
-              )}
-            </div>
-            <div className="bg-orange-300 flex">
-              <input
-                className="px-3 py-4 placeholder-slate-300 text-slate-600 relative bg-white w-11/12"
-                type="text"
-                value={currentMessage}
-                placeholder="New Message"
-                onChange={(event) => setCurrentMessage(event.target.value)}
-                onKeyPress={(event) => {
-                  event.key === "Enter" && sendMessage();
-                }}
-              />
-              <button className="bg-orange-300 pl-8" onClick={sendMessage}>
-                {" "}
-                &#9658; Send
-              </button>
-            </div>
-            </div>)}
+            {conversation === undefined ? (
+              <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center text-md uppercase">
+                Select a Match from Chat History to Open a Chat
+              </div>
+            ) : (
+              <div>
+                <div className="bg-gradient-to-br from-[#5271ff] to-[#5271ee] user-info-header px-5 py-6 flex items-center">
+                  <h3 className="text-lg">{openChat.first_name}</h3>
+                  <img
+                    className="ml-10 rounded-full"
+                    priority
+                    src={openChat.profile_photo}
+                    width="50"
+                  />
+                </div>
+                <div className=" message-area mt-4 px-4 h-96 bg-white overflow-y-auto">
+                  {chatMessages.map((previousMessages) => {
+                    return (
+                      <div
+                        className={
+                          previousMessages.sender === false
+                            ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
+                            : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
+                        }
+                      >
+                        {previousMessages.message_content}
+                      </div>
+                    );
+                  })}
+                  {messageList.map((messageContent) =>
+                    openChat.first_name === messageContent.room ? (
+                      <div
+                        className={
+                          messageContent.sender === false
+                            ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
+                            : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
+                        }
+                      >
+                        <div className="">
+                          <p>{messageContent.message}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )
+                  )}
+                </div>
+                <div className="bg-orange-300 flex">
+                  <input
+                    className="px-3 py-4 placeholder-slate-300 text-slate-600 relative bg-white w-11/12"
+                    type="text"
+                    value={currentMessage}
+                    placeholder="New Message"
+                    onChange={(event) => setCurrentMessage(event.target.value)}
+                    onKeyPress={(event) => {
+                      event.key === "Enter" && sendMessage();
+                    }}
+                  />
+                  <button className="bg-orange-300 pl-8" onClick={sendMessage}>
+                    {" "}
+                    &#9658; Send
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
