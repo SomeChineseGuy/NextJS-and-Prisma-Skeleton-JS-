@@ -72,5 +72,5 @@ model Message {
   chat            Int
   chat_id         Chat   @relation(fields: [chat], references: [id])
   message_content String?
-  sender          Boolean?       
+  sender          String?      
 }
