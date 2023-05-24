@@ -12,13 +12,6 @@ export default function CityId({ users, destinations }) {
   );
   const city = myIndex[0];
 
-  // const city = destinations.filter(
-  //   (destination) => destination["id"] === router.query.id
-  // );
-  console.log("router query", router.query.id);
-  console.log("city", city);
-  console.log("myIndex:", myIndex);
-
   return (
     <section className="pt-48 sm:pt-36 w-full h-[860px]  bg-orange-100">
       <section className="flex flex-col sm:flex-row justify-evenly">

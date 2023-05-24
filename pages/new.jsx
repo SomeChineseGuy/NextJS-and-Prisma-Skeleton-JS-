@@ -23,6 +23,16 @@ export default function New({ users, destinations }) {
     setFormValue((prev) => ({ ...prev, [name]: value }));
   };
 
+  //filtering for unique countries
+  const mySet = new Set();
+  const countries = [];
+  destinations.map((destination) => mySet.add(destination["country"]));
+  for (const item of mySet) {
+    countries.push(item);
+  }
+
+  const hotDestinations = destinations.slice(0, 4);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const objValidation = Object.keys(formValue).filter(
@@ -46,7 +56,6 @@ export default function New({ users, destinations }) {
     }
   };
 
-  const hotDestinations = destinations.slice(0, 4);
   return (
     <section className="pt-48 bg-orange-100 w-full h-[800px] flex items-center justify-center">
       <section className="flex items-start pt-5 shadow-2xl bg-gradient-to-r from-slate-200 to-slate-500 rounded-2xl w-[1100px] h-[600px]">
@@ -69,8 +78,8 @@ export default function New({ users, destinations }) {
                   >
                     <option value={""}>-- select an option --</option>
 
-                    {destinations.map((destination) => (
-                      <option>{destination.country}</option>
+                    {countries.map((destination) => (
+                      <option>{destination}</option>
                     ))}
                   </select>
                 </div>
@@ -117,6 +126,7 @@ export default function New({ users, destinations }) {
                     <option>Female</option>
                     <option>Male</option>
                     <option>Non Binary</option>
+                    <option value="no_preference">No Preference</option>
                   </select>
                 </div>
                 <button
@@ -134,11 +144,12 @@ export default function New({ users, destinations }) {
           <div className="flex flex-wrap justify-center ">
             {hotDestinations.map((hotDestination) => (
               <div
-                className="h-[225px] w-[225px] m-4 bg-contain rounded-[25%]"
+                className="h-[225px] w-[225px] m-4 rounded-[25%] bg-cover bg-no-repeat cursor-pointer"
                 style={{ backgroundImage: `url(${hotDestination["photo"]})` }}
                 key={hotDestination["id"]}
+                onClick={() => router.push(`/city/${hotDestination["id"]}`)}
               >
-                <div className="shadow-md shadow-slate-950 h-[30px] w-[100px] rounded-md bg-white">
+                <div className="shadow-md shadow-slate-950 h-[30px] w-[130px] rounded-md bg-white">
                   <span className="flex justify-center items-center font-bold">
                     <HiLocationMarker /> {hotDestination["city"]}
                   </span>
@@ -162,7 +173,9 @@ export const getServerSideProps = withPageAuthRequired({
       },
     });
     const destinations = await prisma.destination.findMany({
-      distinct: ["country"],
+      orderBy: {
+        country: "asc",
+      },
     });
 
     return {
