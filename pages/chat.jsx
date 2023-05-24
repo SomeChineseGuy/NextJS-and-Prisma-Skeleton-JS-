@@ -14,19 +14,33 @@ export default function Chat(users) {
   const [conversation, setConversation] = useState();
   const [activeChat, setActiveChat] = useState();
 
+  console.log("This is the message list", messageList)
 
-  useEffect(() => {
+  useEffect( () => {
     socketInitializer();
   }, []);
 
   
   const socketInitializer = async () => { 
     await fetch("/api/socket");
+    //Place a guard on socket because useEffect is called twice. 
+    if(!socket){
     socket = io();
-    socket.off("receive").on("receive", data => {
+    socket.on("connect", function () {
+      console.log("connect event", arguments)
+    })
+    socket.on("receive", data => {
+      console.log("data received", data)
+      const messageAlreadyRecorded = messageList.some((message) => {
+        return message.timestamp === data.timestamp && message.sender === data.sender; 
+      })
+      console.log("message already recorded", messageAlreadyRecorded)
+      if(!messageAlreadyRecorded){
       setMessageList((list) => [...list, data]);
+      }
     });
-    return () => socket.disconnect()
+  }
+    return () => socket.on("disconnect")
   };
 
   let activeEmail = "";
@@ -111,10 +125,6 @@ export default function Chat(users) {
     return openChat;
   });
 
-  console.log(conversation)
-  console.log(matchedUsers)
-  console.log(openChat)
-
   let chatHistory = [];
   let chatInformation = [];
   let chatMessages = [];
@@ -148,8 +158,8 @@ export default function Chat(users) {
   });
 
   const sendMessage = async () => {
-    setRoom(room || chatInformation[0].id);
-    socket.emit("join_room", room);
+    // setRoom(room || chatInformation[0].id);
+    // socket.emit("join_room", room);
     setActiveChat( activeChat || chatInformation[0].id);
     if (currentMessage !== "") {
       const messageData = {
