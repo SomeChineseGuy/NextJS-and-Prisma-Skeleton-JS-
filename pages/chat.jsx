@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
 
 let socket;
 
@@ -107,7 +106,7 @@ export default function Chat(users) {
 
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
-    if (item.first_name === conversation) {
+    if (item.first_name.trim() === conversation) {
       openChat = item;
     }
     return openChat;
@@ -151,7 +150,7 @@ export default function Chat(users) {
       const messageData = {
         room: room,
         activeChat: activeChat || chatInformation[0].id,
-        sender: false,
+        sender: activeEmail,
         message: currentMessage,
       };
       socket.emit("send", messageData);
@@ -219,7 +218,7 @@ export default function Chat(users) {
                     return (
                       <div
                         className={
-                          previousMessages.sender === false
+                          previousMessages.sender === activeEmail
                             ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                             : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                         }
@@ -232,7 +231,7 @@ export default function Chat(users) {
                     openChat.first_name === messageContent.room ? (
                       <div
                         className={
-                          messageContent.sender === false
+                          messageContent.sender === activeEmail
                             ? "flex-col justify-start px-5 mb-2 bg-blue-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                             : "flex justify-end px-5 mb-2 bg-amber-300 text-black py-2 text-base max-w-[100%] rounded font-light"
                         }
