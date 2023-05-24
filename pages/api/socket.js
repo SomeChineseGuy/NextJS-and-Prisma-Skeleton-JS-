@@ -10,22 +10,24 @@ export default function SocketHandler(req, res) {
   const io = new Server(res.socket.server);
   res.socket.server.io = io;
 
-  io.on("connection", (socket) => {
+  io.on("connection", socket => {
     console.log("User Connected:", socket.id);
 
-    socket.on("send", (data) => {
+    socket.on("send", data => {
       console.log("Backend data", data)
-      socket.to(data.room).emit("receive", data)
+      socket.broadcast.emit("receive", {...data, timestamp: Date.now()})
     })
 
-    socket.on("join_room", (data) => {
-      socket.join(data);
-      console.log(`User with ID: ${socket.id} joined room: ${data}`)
-    })
+    // socket.on("join_room", data => {
+    //   console.log(`User with ID: ${socket.id} joined room: ${data}`)
+    // })
 
-    socket.on("disconnect", () => {
-      console.log("User Disconnected", socket.id)
-    })
+    socket.on('disconnect', function () {
+      socket.removeAllListeners('send');
+      socket.removeAllListeners('receive');
+      socket.removeAllListeners('disconnect');
+  });
+
   })
   res.end()
 }
