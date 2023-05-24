@@ -15,7 +15,7 @@ export default function SocketHandler(req, res) {
 
     socket.on("send", data => {
       console.log("Backend data", data)
-      socket.broadcast.emit("receive", data)
+      socket.broadcast.emit("receive", {...data, timestamp: Date.now()})
     })
 
     // socket.on("join_room", data => {
