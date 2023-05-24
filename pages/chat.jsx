@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { PrismaClient } from "@prisma/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0";
+import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0"
 
 let socket;
 
@@ -14,19 +14,31 @@ export default function Chat(users) {
   const [conversation, setConversation] = useState();
   const [activeChat, setActiveChat] = useState();
 
-  useEffect(() => {
+  useEffect( () => {
     socketInitializer();
   }, []);
 
-  const socketInitializer = async () => {
+  
+  const socketInitializer = async () => { 
     await fetch("/api/socket");
+    //Place a guard on socket because useEffect is called twice. 
+    if(!socket){
     socket = io();
-    socket.on("receive", (data) => {
+    socket.on("connect", function () {
+      console.log("connect event", arguments)
+    })
+    socket.on("receive", data => {
+      console.log("data received", data)
+      const messageAlreadyRecorded = messageList.some((message) => {
+        return message.timestamp === data.timestamp && message.sender === data.sender; 
+      })
+      console.log("message already recorded", messageAlreadyRecorded)
+      if(!messageAlreadyRecorded){
       setMessageList((list) => [...list, data]);
+      }
     });
-    return () => {
-      socket.disconnect();
-    };
+  }
+    return () => socket.on("disconnect")
   };
 
   let activeEmail = "";
@@ -47,12 +59,12 @@ export default function Chat(users) {
   let matchedMessages = [];
   let openChat = [];
 
-    //On click set the active conversation
-    const handleClick = async (e) => {
-      setConversation(e.target.innerText);
-      setRoom(e.target.innerText);
-      socket.emit("join_room", room);
-    };
+  const handleClick = async (e) => {
+    setConversation(e.target.innerText);
+    setRoom(e.target.innerText);
+    socket.emit("join_room", room);
+  };
+
 
   //Find Active Logged-In User
   usersList.forEach(function (item) {
@@ -61,8 +73,6 @@ export default function Chat(users) {
     }
     return validUser;
   });
-
- 
 
   //Find Matches for Active Logged-In User
   matchList.forEach(function (item) {
@@ -97,14 +107,14 @@ export default function Chat(users) {
   //Return Message History for Chat Matches
   messagesList.forEach(function (item) {
     matchedChats.forEach(function (items) {
-      if (item.id === items.id) {
+      if (item.chat === items.id) {
         matchedMessages.push(item);
       }
     });
     return matchedMessages;
   });
 
-  console.log(conversation)
+  console.log(conversation);
 
   //Based on the conversation selected find the user information
   matchedUsers.forEach(function (item) {
@@ -114,13 +124,12 @@ export default function Chat(users) {
     return openChat;
   });
 
-
   let chatHistory = [];
   let chatInformation = [];
   let chatMessages = [];
 
   //Based on the user selected find their chat history
-  matchList.forEach(function (item) {
+  matchHistory.forEach(function (item) {
     if (item.user_2 === openChat.id || item.user_1 === openChat.id) {
       chatHistory.push(item);
     }
@@ -136,7 +145,7 @@ export default function Chat(users) {
     });
     return chatInformation;
   });
-
+  
   //Based on the chat information find the messages for the chat.
   messagesList.forEach(function (item) {
     chatInformation.forEach(function (items) {
@@ -147,12 +156,11 @@ export default function Chat(users) {
     return chatMessages;
   });
 
-
   const sendMessage = async () => {
-    setActiveChat(chatInformation[0].id);
+    setActiveChat( activeChat || chatInformation[0].id);
     if (currentMessage !== "") {
       const messageData = {
-        room: room,
+        room: room || chatInformation[0].id ,
         activeChat: activeChat || chatInformation[0].id,
         sender: activeEmail,
         message: currentMessage,
@@ -168,8 +176,8 @@ export default function Chat(users) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      setCurrentMessage("");
     }
-    setCurrentMessage("");
   };
 
   return (
@@ -230,7 +238,7 @@ export default function Chat(users) {
                 );
               })}
               {messageList.map((messageContent) =>
-                openChat.first_name === messageContent.room ? (
+                // openChat.first_name === messageContent.room ? (
                   <div
                     className={
                       messageContent.sender === activeEmail
@@ -242,9 +250,9 @@ export default function Chat(users) {
                       <p>{messageContent.message}</p>
                     </div>
                   </div>
-                ) : (
-                  <div></div>
-                )
+                // ) : (
+                //   <div></div>
+                // )
               )}
             </div>
             <div className="bg-orange-300 flex">
