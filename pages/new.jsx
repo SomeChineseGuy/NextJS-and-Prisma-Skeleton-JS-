@@ -58,7 +58,7 @@ export default function New({ users, destinations }) {
 
   return (
     <section className="pt-48 bg-orange-100 w-full h-[800px] flex items-center justify-center">
-      <section className="flex items-start pt-5 shadow-2xl bg-gradient-to-r from-slate-200 to-slate-500 rounded-2xl w-[1100px] h-[600px]">
+      <section className="flex items-start pt-5 shadow-2xl hover:shadow-inner bg-gradient-to-r from-[#FFD482] to-[#EE8162] rounded-2xl w-[1100px] h-[600px]">
         <article className="basis-1/2 px-4 text-center ">
           <h2 className="font-extrabold text-3xl">New Adventure</h2>
           <div>
@@ -183,14 +183,3 @@ export const getServerSideProps = withPageAuthRequired({
     };
   },
 });
-
-// export async function getStaticProps() {
-//   const prisma = new PrismaClient();
-//   const users = await prisma.user.findMany();
-//   const destinations = await prisma.destination.findMany({
-//     distinct: ["country"],
-//   });
-//   return {
-//     props: { destinations },
-//   };
-// }
