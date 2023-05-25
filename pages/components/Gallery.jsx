@@ -19,10 +19,6 @@ export default function Gallery(props) {
 
   const data = props.data;
 
-  // const handleClick = () => {
-  //   router.push(`/${}`)
-  // };
-
   return (
     <>
       <div className="relative flex w-full items-center justify-center bg-orange-100 px-100">
